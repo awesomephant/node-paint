@@ -1,0 +1,89 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.node {
+  border: 1px solid green;
+  border-radius: 2px;
+  position: absolute;
+  margin-bottom: 1rem;
+  top: 0;
+  left: 0;
+  background: white; 
+}
+
+.socket {
+  list-style: none;
+  margin-bottom: 5px;
+  font-size: .9rem;
+  height: 18px;
+  display: flex;
+  align-items: center
+}
+
+.socket--plug {
+  display: inline-block;
+  height: 7px;
+  width: 7px;
+  position: relative;
+  background: black;
+  border-radius: 100%;
+}
+
+.node-inputs, .node-outputs {
+  position: absolute;
+  bottom: 0;
+}
+.node-outputs {
+  right: 0;
+}
+
+.node-inputs .socket {
+  margin-left: -3.5px;
+}
+.node-outputs .socket {
+  flex-flow: row-reverse;
+  margin-right: -3.5px;
+}
+.node-inputs .socket--plug {
+  margin-right: .4rem;
+}
+.node-outputs .socket--plug {
+  margin-left: .4rem;
+}
+
+.node-header {
+  border-bottom: 1px solid green;
+  padding: .2rem;
+  text-align: center;
+  font-size: .9rem;
+  margin-bottom: .5rem;
+}
+
+.node-body input {
+  padding: .2rem .8rem;
+  border: 1px solid gray;
+  border-radius: 2rem;
+  background: rgb(240,240,240)
+}
+
+.world {
+  border: 1px solid black;
+}
+
+path {
+  fill: none;
+  stroke: black;
+  stroke-width: 2px;
+}
+
+.nodeContainer {
+  position: absolute;
+  border: 1px solid pink;
+}
