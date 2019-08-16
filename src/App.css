@@ -29,11 +29,16 @@ body {
 
 .socket--plug {
   display: inline-block;
-  height: 7px;
-  width: 7px;
+  height:10px;
+  width: 10px;
   position: relative;
   background: black;
   border-radius: 100%;
+}
+
+.socket--plug:hover {
+  background: gray;
+  cursor: pointer;
 }
 
 .node-inputs, .node-outputs {
@@ -63,14 +68,19 @@ body {
   padding: .2rem;
   text-align: center;
   font-size: .9rem;
-  margin-bottom: .5rem;
+  cursor: grab;
 }
 
-.node-body input {
-  padding: .2rem .8rem;
+.node-body {
+  padding: .5rem;
+}
+
+.node-body input, .node-body select {
+  padding: .4rem .4rem;
+  font-size: .9rem;
   border: 1px solid gray;
-  border-radius: 2rem;
-  background: rgb(240,240,240)
+  border-radius: 2px;
+  background: white
 }
 
 .world {

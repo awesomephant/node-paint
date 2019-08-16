@@ -3,7 +3,9 @@ import NumberNode from './NumberNode.js'
 import DisplayNode from './DisplayNode.js'
 import MathNode from './MathNode.js'
 import Connection from './Connection.js'
-
+import testState from './testState.js'
+import ContextMenu from './ContextMenu.js'
+import makeNode from './makeNode.js'
 
 export default class NodeContainer extends React.Component {
     constructor(props) {
@@ -13,55 +15,37 @@ export default class NodeContainer extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.getNodeByID = this.getNodeByID.bind(this)
         this.updateOutput = this.updateOutput.bind(this)
+        this.addNode = this.addNode.bind(this)
+        this.handleMouseMove = this.handleMouseMove.bind(this)
+        this.handleContextMenu = this.handleContextMenu.bind(this)
+        this.state = testState;
+    }
 
-        this.state = {
-            nodes: [
-                {
-                    type: 'number',
-                    title: 'Number',
-                    id: 0,
-                    x: 100,
-                    y: 250,
-                    width: 250,
-                    height: 100,
-                    outputs: [
-                        { label: 'Output', value: 13, id:'0' }
-                    ]
-                },
-                {
-                    type: 'math',
-                    title: 'Multiply',
-                    id: 1,
-                    x: 500,
-                    y: 350,
-                    width: 250,
-                    height: 110,
-                    inputs: [
-                        {label: 'Value A', value: 0, id: 0},
-                        {label: 'Value B', value: 0, id: 1}
-                    ],
-                    outputs: [
-                        { label: 'Output', value: 0, id:'0' }
-                    ]
-                },
-                {
-                    type: 'display',
-                    id: 2,
-                    x: 560,
-                    y: 500,
-                    width: 160,
-                    height: 100,
-                    inputs: [
-                        { label: 'Input', value: 0 }
-                    ]
-                }
-            ],
-            connections: [
-                { from: { nodeID: 0, socket: 0 }, to: { nodeID: 1, socket: 0 }, id: 0 },
-                { from: { nodeID: 0, socket: 0 }, to: { nodeID: 1, socket: 1 }, id: 1 },
-                { from: { nodeID: 1, socket: 0 }, to: { nodeID: 2, socket: 0 }, id: 2 },
-            ]
-        }
+    addNode(type){
+        this.setState((prevState, props) => {   
+            prevState.nodes.push(makeNode(type, this.state.contextMenu.x, this.state.contextMenu.y))
+            prevState.contextMenu.isOpen = false;
+            return prevState;
+        })
+    }
+
+    addConnection(from, to){
+        
+    }
+
+    handleMouseMove(e) {
+    }
+
+    handleContextMenu(e) {
+        e.preventDefault()
+
+        this.setState({
+            contextMenu: {
+                isOpen: true,
+                x: e.clientX,
+                y: e.clientY
+            }
+        })
     }
 
     handleChange(n) {
@@ -90,7 +74,6 @@ export default class NodeContainer extends React.Component {
             return prevState;
         })
     }
-
     updateNodes(id) {
 
         // We're going top-down
@@ -126,13 +109,13 @@ export default class NodeContainer extends React.Component {
 
     render() {
         const connectionItems = this.state.connections.map(function (c) {
-            
+
             let toIndex = this.getNodeByID(c.to.nodeID)
             let fromIndex = this.getNodeByID(c.from.nodeID)
-            
+
             let x1 = this.state.nodes[fromIndex].x + this.state.nodes[fromIndex].width;
             let y1 = (this.state.nodes[fromIndex].y + this.state.nodes[fromIndex].height) - ((this.state.nodes[fromIndex].outputs.length - c.from.socket) * 15);
-            
+
             let x2 = this.state.nodes[toIndex].x;
             let y2 = (this.state.nodes[toIndex].y + this.state.nodes[toIndex].height) - ((this.state.nodes[toIndex].inputs.length - c.to.socket) * 18);
 
@@ -144,16 +127,24 @@ export default class NodeContainer extends React.Component {
                 return <NumberNode updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></NumberNode>
             } else if (node.type === 'display') {
                 return <DisplayNode inputs={node.inputs} update={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} title={node.title}></DisplayNode>
-            } else if (node.type === 'math'){
+            } else if (node.type === 'math') {
                 return <MathNode inputs={node.inputs} outputs={node.outputs} updateOutput={this.updateOutput} updateNodes={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} id={node.id} key={node.id} title={node.title}></MathNode>
             }
             return false;
         }, this);
+
+
+        let contextMenu = '';
+        if (this.state.contextMenu.isOpen) {
+            contextMenu = <ContextMenu addNode={this.addNode} x={this.state.contextMenu.x} y={this.state.contextMenu.y}></ContextMenu>
+        }
+
         return (
-            <div className='nodeContainer' >
+            <div className='nodeContainer' onMouseMove={this.handleMouseMove} onContextMenu={this.handleContextMenu}>
                 < svg width={this.props.width + 'px'} height={this.props.height + 'px'} >
                     {connectionItems}
                 </svg>
+                {contextMenu}
                 <>
                     {nodeItems}
                 </>

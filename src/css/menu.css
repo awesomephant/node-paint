@@ -1,0 +1,31 @@
+.menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid blue;
+    min-width: 10rem;
+    z-index: 10;
+    background: white;
+}
+
+.menu--item {
+    display: block;
+}
+
+.menu--item button {
+    appearance: none;
+    background: none;
+    border: none;
+    width: 100%;
+    display: block;
+    text-align-last: left;
+    padding: .5rem;
+    font-size: 1rem;
+    border-bottom: 1px solid blue;
+    color: blue;
+}
+
+.menu--item button:hover {
+    background: rgb(235,235,235);
+    cursor: pointer;
+}
