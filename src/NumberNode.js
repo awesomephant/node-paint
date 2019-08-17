@@ -5,12 +5,22 @@ export default class NumberNode extends React.Component {
     constructor(props) {
         super(props)
         this.handleChange = this.handleChange.bind(this)
+        this.handleDraftConection = this.handleDraftConection.bind(this)
+        this.handleDraftConectionDrop = this.handleDraftConectionDrop.bind(this)
     }
     
     handleChange(e) {
         let v = e.target.value
         this.props.updateOutput(this.props.id, 0, v)
         this.props.update(this.props.id)
+    }
+
+    handleDraftConection(socketID){
+        this.props.startDraftConnection(this.props.id, socketID)
+    }
+    
+    handleDraftConectionDrop(socketID){
+        this.props.finishDraftConection(this.props.id, socketID)
     }
 
     render() {
@@ -20,7 +30,7 @@ export default class NumberNode extends React.Component {
             transform: `translateX(${this.props.x}px) translateY(${this.props.y}px)`
         }
         const outputs = this.props.outputs.map((socket) =>
-            <Socket key={socket.id} value={socket.value} label={socket.label}></Socket>
+            <Socket key={socket.id} id={socket.id} finishDraftConectionDrop={this.handleDraftConectionDrop} handleDraftConnection={this.handleDraftConection} value={socket.value} label={socket.label}></Socket>
         );
 
         return (

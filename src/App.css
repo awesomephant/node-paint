@@ -62,6 +62,11 @@ body {
 .node-outputs .socket--plug {
   margin-left: .4rem;
 }
+.socket--label {
+  -moz-user-select: none;
+  user-select: none;
+
+}
 
 .node-header {
   border-bottom: 1px solid green;
@@ -69,6 +74,8 @@ body {
   text-align: center;
   font-size: .9rem;
   cursor: grab;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .node-body {

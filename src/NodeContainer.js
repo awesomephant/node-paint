@@ -12,33 +12,79 @@ export default class NodeContainer extends React.Component {
         super(props)
 
         this.updateNodes = this.updateNodes.bind(this)
-        this.handleChange = this.handleChange.bind(this)
         this.getNodeByID = this.getNodeByID.bind(this)
         this.updateOutput = this.updateOutput.bind(this)
         this.addNode = this.addNode.bind(this)
         this.handleMouseMove = this.handleMouseMove.bind(this)
         this.handleContextMenu = this.handleContextMenu.bind(this)
+        this.startDraftConnection = this.startDraftConnection.bind(this)
+        this.finishDraftConnection = this.finishDraftConnection.bind(this)
+        this.handleMouseUp = this.handleMouseUp.bind(this)
+
         this.state = testState;
     }
 
-    addNode(type){
-        this.setState((prevState, props) => {   
+    addNode(type) {
+        this.setState((prevState, props) => {
             prevState.nodes.push(makeNode(type, this.state.contextMenu.x, this.state.contextMenu.y))
             prevState.contextMenu.isOpen = false;
             return prevState;
         })
     }
-
-    addConnection(from, to){
-        
+    startDraftConnection(nodeID, socket) {
+        this.setState({
+            draftConnection: {
+                isActive: true,
+                from: { nodeID: nodeID, socket: socket }
+            }
+        })
     }
 
+    isConnectionValid(proposedConnection) {
+        return true;
+    }
+
+    finishDraftConnection(nodeID, socket) {
+        let proposedConnection = {
+            from: { nodeID: this.state.draftConnection.from.nodeID, socket: this.state.draftConnection.from.socket },
+            to: { nodeID: nodeID, socket: socket }
+        }
+        if (this.isConnectionValid(proposedConnection)) {
+            this.setState((prevState) => {
+                // Clear any previous connections
+                for (let i = 0; i < this.state.connections.length; i++) {
+                    let c = this.state.connections[i];
+                    if (c.to.nodeID === proposedConnection.to.nodeID &&
+                        c.to.socket === proposedConnection.to.socket) {
+                        prevState.connections.splice(i, 1);
+                        break;
+                    }
+                }
+                prevState.connections.push(proposedConnection)
+                return prevState;
+            }, () => this.updateNodes(proposedConnection.from.nodeID))
+            // updateNodes() in a callback because setState() is async
+
+        }
+    }
+
+
     handleMouseMove(e) {
+        this.setState({
+            mouse: { x: e.clientX, y: e.clientY }
+        })
+    }
+
+    handleMouseUp(e) {
+        if (this.state.draftConnection.isActive === true) {
+            this.setState({
+                draftConnection: { isActive: false }
+            })
+        }
     }
 
     handleContextMenu(e) {
         e.preventDefault()
-
         this.setState({
             contextMenu: {
                 isOpen: true,
@@ -46,14 +92,6 @@ export default class NodeContainer extends React.Component {
                 y: e.clientY
             }
         })
-    }
-
-    handleChange(n) {
-        this.setState((prevState, props) => {
-            prevState.nodes.a.value = n;
-            return prevState;
-        })
-        this.updateNode();
     }
 
     getNodeByID(id) {
@@ -95,8 +133,6 @@ export default class NodeContainer extends React.Component {
         for (let i = 0; i < relevantConnections.length; i++) {
 
             const rc = relevantConnections[i];
-            console.log(rc);
-
             const toIndex = this.getNodeByID(rc.to.nodeID);
             const fromIndex = this.getNodeByID(rc.from.nodeID);
 
@@ -124,11 +160,11 @@ export default class NodeContainer extends React.Component {
 
         const nodeItems = this.state.nodes.map(function (node) {
             if (node.type === 'number') {
-                return <NumberNode updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></NumberNode>
+                return <NumberNode finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></NumberNode>
             } else if (node.type === 'display') {
-                return <DisplayNode inputs={node.inputs} update={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} title={node.title}></DisplayNode>
+                return <DisplayNode finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} inputs={node.inputs} update={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></DisplayNode>
             } else if (node.type === 'math') {
-                return <MathNode inputs={node.inputs} outputs={node.outputs} updateOutput={this.updateOutput} updateNodes={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} id={node.id} key={node.id} title={node.title}></MathNode>
+                return <MathNode finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} inputs={node.inputs} outputs={node.outputs} updateOutput={this.updateOutput} updateNodes={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} id={node.id} key={node.id} title={node.title}></MathNode>
             }
             return false;
         }, this);
@@ -139,15 +175,22 @@ export default class NodeContainer extends React.Component {
             contextMenu = <ContextMenu addNode={this.addNode} x={this.state.contextMenu.x} y={this.state.contextMenu.y}></ContextMenu>
         }
 
+        let draftConnection = '';
+        if (this.state.draftConnection.isActive) {
+            let fromNode = this.state.nodes[this.getNodeByID(this.state.draftConnection.from.nodeID)]
+            let x1 = fromNode.x + fromNode.width;
+            let y1 = fromNode.y + fromNode.height - ((fromNode.outputs.length - this.state.draftConnection.from.socket) * 15);
+            draftConnection = <Connection key={0} x1={x1} y1={y1} x2={this.state.mouse.x} y2={this.state.mouse.y}></Connection>
+        }
+
         return (
-            <div className='nodeContainer' onMouseMove={this.handleMouseMove} onContextMenu={this.handleContextMenu}>
+            <div className='nodeContainer' onMouseUp={this.handleMouseUp} onMouseMove={this.handleMouseMove} onContextMenu={this.handleContextMenu}>
                 < svg width={this.props.width + 'px'} height={this.props.height + 'px'} >
                     {connectionItems}
+                    {draftConnection}
                 </svg>
                 {contextMenu}
-                <>
-                    {nodeItems}
-                </>
+                {nodeItems}
             </div >
         )
     }

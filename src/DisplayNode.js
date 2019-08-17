@@ -2,6 +2,16 @@ import React from 'react'
 import Socket from './Socket.js'
 
 export default class DisplayNode extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.handleDraftConnectionDrop = this.handleDraftConnectionDrop.bind(this);
+    }
+
+    handleDraftConnectionDrop(socketID) {
+        this.props.finishDraftConnection(this.props.id, socketID)
+    }
+
     render() {
         const nodeCSS = {
             width: `${this.props.width}px`,
@@ -9,7 +19,7 @@ export default class DisplayNode extends React.Component {
             transform: `translateX(${this.props.x}px) translateY(${this.props.y}px)`
         }
         const inputs = this.props.inputs.map((socket) =>
-            <Socket key={socket.id} value={socket.value} label={socket.label}></Socket>
+            <Socket handleDraftConnectionDrop={this.handleDraftConnectionDrop} key={socket.id} id={socket.id} value={socket.value} label={socket.label}></Socket>
         );
 
         return (

@@ -5,10 +5,13 @@ import Socket from './Socket.js';
 export default class MathNode extends React.Component {
     constructor(props) {
         super(props)
+
         this.solve = this.solve.bind(this)
         this.componentDidUpdate = this.componentDidUpdate.bind(this)
         this.handleSelect = this.handleSelect.bind(this)
-
+        this.handleDraftConnection = this.handleDraftConnection.bind(this)
+        this.handleDraftConnectionDrop = this.handleDraftConnectionDrop.bind(this)
+        
         this.state = {
             operation: 'add'
         }
@@ -30,6 +33,15 @@ export default class MathNode extends React.Component {
     handleSelect(e) {
         this.setState({ operation: e.target.value })
     }
+
+    handleDraftConnection(socketID){
+        this.props.startDraftConnection(this.props.id, socketID)
+    }
+
+    handleDraftConnectionDrop(socketID){
+        this.props.finishDraftConnection(this.props.id, socketID)
+    }
+
     componentDidUpdate(prevProps) {
         let outputValue = this.solve();
         if (this.props.outputs[0].value !== outputValue) {
@@ -44,10 +56,10 @@ export default class MathNode extends React.Component {
             transform: `translateX(${this.props.x}px) translateY(${this.props.y}px)`
         }
         const inputs = this.props.inputs.map((socket) =>
-            <Socket key={socket.id} id={socket.id} value={socket.value} label={socket.label}></Socket>
+            <Socket handleDraftConnectionDrop={this.handleDraftConnectionDrop} key={socket.id} id={socket.id} value={socket.value} label={socket.label}></Socket>
         );
         const outputs = this.props.outputs.map((socket) =>
-            <Socket key={socket.id} id={socket.id} value={socket.value} label={socket.label}></Socket>
+               <Socket key={socket.id} id={socket.id} finishDraftConectionDrop={this.handleDraftConectionDrop} handleDraftConnection={this.handleDraftConnection} value={socket.value} label={socket.label}></Socket>
         );
         return (
             <div className='node' style={nodeCSS}>

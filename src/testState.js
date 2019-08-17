@@ -4,6 +4,14 @@ export default {
         x: 0,
         y: 0
     },
+    draftConnection: {
+        isActive: false,
+        from: {nodeID: 0, socket: 0}
+    },
+    mouse: {
+        x: 0,
+        y: 0
+    },
     nodes: [
         {
             type: 'number',
@@ -58,7 +66,6 @@ export default {
         }
     ],
     connections: [
-        { from: { nodeID: 0, socket: 0 }, to: { nodeID: 1, socket: 0 }, id: 0 },
         { from: { nodeID: -1, socket: 0 }, to: { nodeID: 1, socket: 1 }, id: 1 },
         { from: { nodeID: 1, socket: 0 }, to: { nodeID: 2, socket: 0 }, id: 2 },
     ]
