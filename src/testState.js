@@ -6,11 +6,15 @@ export default {
     },
     draftConnection: {
         isActive: false,
-        from: {nodeID: 0, socket: 0}
+        from: { nodeID: 0, socket: 0 }
     },
     mouse: {
         x: 0,
         y: 0
+    },
+    drag: {
+        isActive: false,
+        nodeIndex: null
     },
     nodes: [
         {

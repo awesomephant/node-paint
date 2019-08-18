@@ -1,4 +1,5 @@
 import React from 'react'
+import * as utils from './utils.js';
 import NumberNode from './NumberNode.js'
 import DisplayNode from './DisplayNode.js'
 import MathNode from './MathNode.js'
@@ -20,6 +21,8 @@ export default class NodeContainer extends React.Component {
         this.startDraftConnection = this.startDraftConnection.bind(this)
         this.finishDraftConnection = this.finishDraftConnection.bind(this)
         this.handleMouseUp = this.handleMouseUp.bind(this)
+        this.handleDragStart = this.handleDragStart.bind(this)
+        this.handleDragEnd = this.handleDragEnd.bind(this)
 
         this.state = testState;
     }
@@ -68,10 +71,49 @@ export default class NodeContainer extends React.Component {
         }
     }
 
+    handleDragStart(nodeID) {
+        let dragIndex = this.getNodeByID(nodeID);
+        this.setState({
+            drag: {
+                isActive: true,
+                nodeIndex: dragIndex
+            }
+        })
+    }
+    handleDragEnd() {
+        this.setState({
+            drag: {
+                isActive: false,
+                nodeIndex: null
+            }
+        })
+    }
 
     handleMouseMove(e) {
+        let deltaX = e.clientX - this.state.mouse.x; 
+        let deltaY = e.clientY - this.state.mouse.y;
         this.setState({
-            mouse: { x: e.clientX, y: e.clientY }
+            mouse: {
+                x: e.clientX,
+                y: e.clientY,
+                deltaX: deltaX,
+                deltaY: deltaY,
+            }
+        }, function () {
+
+            if (utils.distance(this.state.mouse.x, this.state.mouse.y, this.state.contextMenu.x, this.state.contextMenu.y) > 200 && this.state.contextMenu.isOpen === true) {
+                this.setState({ contextMenu: { isActive: false } })
+            }
+
+            if (this.state.drag.isActive) {
+                this.setState((prevState) => {
+                    prevState.nodes[this.state.drag.nodeIndex].x += this.state.mouse.deltaX
+                    prevState.nodes[this.state.drag.nodeIndex].y += this.state.mouse.deltaY
+
+                    return prevState;
+                })
+            }
+
         })
     }
 
@@ -79,6 +121,12 @@ export default class NodeContainer extends React.Component {
         if (this.state.draftConnection.isActive === true) {
             this.setState({
                 draftConnection: { isActive: false }
+            })
+        }
+
+        if (this.state.drag.isActive === true) {
+            this.setState({
+                drag: { isActive: false }
             })
         }
     }
@@ -160,15 +208,14 @@ export default class NodeContainer extends React.Component {
 
         const nodeItems = this.state.nodes.map(function (node) {
             if (node.type === 'number') {
-                return <NumberNode finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></NumberNode>
+                return <NumberNode handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></NumberNode>
             } else if (node.type === 'display') {
-                return <DisplayNode finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} inputs={node.inputs} update={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></DisplayNode>
+                return <DisplayNode handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} inputs={node.inputs} update={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></DisplayNode>
             } else if (node.type === 'math') {
-                return <MathNode finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} inputs={node.inputs} outputs={node.outputs} updateOutput={this.updateOutput} updateNodes={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} id={node.id} key={node.id} title={node.title}></MathNode>
+                return <MathNode handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} inputs={node.inputs} outputs={node.outputs} updateOutput={this.updateOutput} updateNodes={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} id={node.id} key={node.id} title={node.title}></MathNode>
             }
             return false;
         }, this);
-
 
         let contextMenu = '';
         if (this.state.contextMenu.isOpen) {

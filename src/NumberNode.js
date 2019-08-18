@@ -4,7 +4,14 @@ import Socket from './Socket.js';
 export default class NumberNode extends React.Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+            dragging: false
+        }
+
         this.handleChange = this.handleChange.bind(this)
+        this.handleDragStart = this.handleDragStart.bind(this)
+        this.handleDragEnd = this.handleDragEnd.bind(this)
         this.handleDraftConection = this.handleDraftConection.bind(this)
         this.handleDraftConectionDrop = this.handleDraftConectionDrop.bind(this)
     }
@@ -13,6 +20,19 @@ export default class NumberNode extends React.Component {
         let v = e.target.value
         this.props.updateOutput(this.props.id, 0, v)
         this.props.update(this.props.id)
+    }
+
+    handleDragStart(){
+        this.setState({
+            dragging: true
+        })
+        this.props.handleDragStart(this.props.id)
+    }
+    handleDragEnd(){
+        this.setState({
+            dragging: false
+        })
+        this.props.handleDragEnd(this.props.id)
     }
 
     handleDraftConection(socketID){
@@ -34,8 +54,8 @@ export default class NumberNode extends React.Component {
         );
 
         return (
-            <div className='node' key={this.props.id} style={nodeCSS}>
-                <header className='node-header'>{this.props.title}</header>
+            <div data-dragging={this.state.dragging} className='node' key={this.props.id} style={nodeCSS}>
+                <header onMouseDown={this.handleDragStart} onMouseUp={this.handleDragEnd} className='node-header'>{this.props.title}</header>
                 <div className='node-body'>               
                     <input type='number' value={this.props.outputs[0].value} onChange={this.handleChange}></input>
                 </div>

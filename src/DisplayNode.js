@@ -5,11 +5,28 @@ export default class DisplayNode extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            dragging: false
+        }
         this.handleDraftConnectionDrop = this.handleDraftConnectionDrop.bind(this);
+        this.handleDragStart = this.handleDragStart.bind(this)
+        this.handleDragEnd = this.handleDragEnd.bind(this)
     }
 
     handleDraftConnectionDrop(socketID) {
         this.props.finishDraftConnection(this.props.id, socketID)
+    }
+    handleDragStart() {
+        this.setState({
+            dragging: true
+        })
+        this.props.handleDragStart(this.props.id)
+    }
+    handleDragEnd() {
+        this.setState({
+            dragging: false
+        })
+        this.props.handleDragEnd(this.props.id)
     }
 
     render() {
@@ -23,8 +40,8 @@ export default class DisplayNode extends React.Component {
         );
 
         return (
-            <div className='node' key={this.props.id} style={nodeCSS} >
-                <header className='node-header'>Display</header>
+            <div data-dragging={this.state.dragging} className='node' key={this.props.id} style={nodeCSS} >
+                <header onMouseDown={this.handleDragStart} onMouseUp={this.handleDragEnd} className='node-header'>Display</header>
                 <ul className='node-inputs'>
                     {inputs}
                 </ul>

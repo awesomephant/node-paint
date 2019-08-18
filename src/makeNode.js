@@ -26,6 +26,11 @@ export default function makeNode(type, x, y) {
         node.title = 'Display'
         node.inputs.push({ label: 'Input', value: 0, id: 0 })
     }
+    if (type === 'pen') {
+        node.title = 'Pen'
+        node.inputs.push({ label: 'Radius', value: 0, id: 0 })
+        node.inputs.push({ label: 'Colour', value: 0, id: 1 })
+    }
 
     return node;
 

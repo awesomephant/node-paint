@@ -11,12 +11,27 @@ export default class MathNode extends React.Component {
         this.handleSelect = this.handleSelect.bind(this)
         this.handleDraftConnection = this.handleDraftConnection.bind(this)
         this.handleDraftConnectionDrop = this.handleDraftConnectionDrop.bind(this)
-        
+        this.handleDragStart = this.handleDragStart.bind(this)
+        this.handleDragEnd = this.handleDragEnd.bind(this)
+
         this.state = {
             operation: 'add'
         }
 
     }
+    handleDragStart() {
+        this.setState({
+            dragging: true
+        })
+        this.props.handleDragStart(this.props.id)
+    }
+    handleDragEnd() {
+        this.setState({
+            dragging: false
+        })
+        this.props.handleDragEnd(this.props.id)
+    }
+
     solve() {
         let a = parseFloat(this.props.inputs[0].value);
         let b = parseFloat(this.props.inputs[1].value);
@@ -25,7 +40,7 @@ export default class MathNode extends React.Component {
         if (this.state.operation === 'add') { result = a + b; }
         if (this.state.operation === 'subtract') { result = a - b; }
         if (this.state.operation === 'multiply') { result = a * b; }
-        if (this.state.operation === 'diviide') { result = a / b; }
+        if (this.state.operation === 'divide' && b !== 0) { result = a / b; }
 
         return result;
     }
@@ -34,11 +49,11 @@ export default class MathNode extends React.Component {
         this.setState({ operation: e.target.value })
     }
 
-    handleDraftConnection(socketID){
+    handleDraftConnection(socketID) {
         this.props.startDraftConnection(this.props.id, socketID)
     }
 
-    handleDraftConnectionDrop(socketID){
+    handleDraftConnectionDrop(socketID) {
         this.props.finishDraftConnection(this.props.id, socketID)
     }
 
@@ -59,11 +74,11 @@ export default class MathNode extends React.Component {
             <Socket handleDraftConnectionDrop={this.handleDraftConnectionDrop} key={socket.id} id={socket.id} value={socket.value} label={socket.label}></Socket>
         );
         const outputs = this.props.outputs.map((socket) =>
-               <Socket key={socket.id} id={socket.id} finishDraftConectionDrop={this.handleDraftConectionDrop} handleDraftConnection={this.handleDraftConnection} value={socket.value} label={socket.label}></Socket>
+            <Socket key={socket.id} id={socket.id} finishDraftConectionDrop={this.handleDraftConectionDrop} handleDraftConnection={this.handleDraftConnection} value={socket.value} label={socket.label}></Socket>
         );
         return (
-            <div className='node' style={nodeCSS}>
-                <header className='node-header'>Math</header>
+            <div data-dragging={this.state.dragging} className='node' style={nodeCSS}>
+                <header onMouseDown={this.handleDragStart} onMouseUp={this.handleDragEnd} className='node-header'>Math</header>
                 <div className='node-body'>
                     <select value={this.state.operation} onChange={this.handleSelect}>
                         <option value='add'>Add</option>

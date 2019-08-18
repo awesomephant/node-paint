@@ -78,6 +78,11 @@ body {
   user-select: none;
 }
 
+[data-dragging=true] .node-header {
+  cursor: grabbing;
+  background: rgb(250,250,250);
+}
+
 .node-body {
   padding: .5rem;
 }
