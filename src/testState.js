@@ -58,19 +58,20 @@ export default {
             ]
         },
         {
-            type: 'display',
+            type: 'pen',
+            title: 'Pen Output',
             id: 2,
-            x: 560,
+            x: 660,
             y: 500,
             width: 160,
             height: 100,
             inputs: [
-                { label: 'Input', value: 0, id: 0 }
+                { label: 'Radius', value: 0, id: 0 },
+                { label: 'Fill', value: 0, id: 1 }
             ]
         }
     ],
     connections: [
         { from: { nodeID: -1, socket: 0 }, to: { nodeID: 1, socket: 1 }, id: 1 },
-        { from: { nodeID: 1, socket: 0 }, to: { nodeID: 2, socket: 0 }, id: 2 },
     ]
 }

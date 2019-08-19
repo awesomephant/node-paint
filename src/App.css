@@ -9,7 +9,7 @@ body {
 }
 
 .node {
-  border: 1px solid green;
+  border: 1px solid black;
   border-radius: 2px;
   position: absolute;
   margin-bottom: 1rem;
@@ -69,18 +69,19 @@ body {
 }
 
 .node-header {
-  border-bottom: 1px solid green;
+  border-bottom: 1px solid black;
   padding: .2rem;
   text-align: center;
   font-size: .9rem;
   cursor: grab;
   -moz-user-select: none;
   user-select: none;
+  background: rgb(250,250,250);
 }
 
 [data-dragging=true] .node-header {
   cursor: grabbing;
-  background: rgb(250,250,250);
+  background: rgb(240,240,240);
 }
 
 .node-body {
@@ -95,8 +96,17 @@ body {
   background: white
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
 .world {
-  border: 1px solid black;
+  bottom: 0;
 }
 
 path {
@@ -106,6 +116,5 @@ path {
 }
 
 .nodeContainer {
-  position: absolute;
-  border: 1px solid pink;
+  border-bottom: 1px solid black;
 }

@@ -29,3 +29,17 @@
     background: rgb(235,235,235);
     cursor: pointer;
 }
+
+.menu--item.header {
+    padding: .5rem;
+    padding-bottom: 0;
+    font-size: .9rem;
+    text-transform: uppercase;
+    color: blue;
+    letter-spacing: .02em;
+    margin-top: .5rem;
+}
+
+.menu--item.header:first-of-type {
+    margin-top: 0;
+}

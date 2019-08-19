@@ -3,6 +3,7 @@ import * as utils from './utils.js';
 import NumberNode from './NumberNode.js'
 import DisplayNode from './DisplayNode.js'
 import MathNode from './MathNode.js'
+import PenNode from './PenNode'
 import Connection from './Connection.js'
 import testState from './testState.js'
 import ContextMenu from './ContextMenu.js'
@@ -213,6 +214,8 @@ export default class NodeContainer extends React.Component {
                 return <DisplayNode handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} inputs={node.inputs} update={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></DisplayNode>
             } else if (node.type === 'math') {
                 return <MathNode handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} inputs={node.inputs} outputs={node.outputs} updateOutput={this.updateOutput} updateNodes={this.updateNodes} width={node.width} height={node.height} x={node.x} y={node.y} id={node.id} key={node.id} title={node.title}></MathNode>
+            } else if(node.type === 'pen'){
+                return <PenNode handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateOutput={this.updateOutput} update={this.updateNodes} inputs={node.inputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></PenNode>
             }
             return false;
         }, this);
