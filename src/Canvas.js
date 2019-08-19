@@ -45,7 +45,9 @@ export default class Canvas extends React.Component {
   }
   render() {
     return (
+      <div className='canvas'>
       <canvas height={this.props.height} width={this.props.width} ref={this.canvasRef} onMouseMove={this.handleMouseMove} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp} className='world'></canvas>
+      </div>
     )
   }
 }

@@ -60,7 +60,7 @@ export default {
         {
             type: 'pen',
             title: 'Pen Output',
-            id: 2,
+            id: 'pen',
             x: 660,
             y: 500,
             width: 160,

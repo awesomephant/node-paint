@@ -71,12 +71,28 @@ body {
 .node-header {
   border-bottom: 1px solid black;
   padding: .2rem;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
   font-size: .9rem;
   cursor: grab;
   -moz-user-select: none;
   user-select: none;
   background: rgb(250,250,250);
+}
+
+.node--close {
+  appearance: none;
+  font-size: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.node--close:hover {
+  opacity: .7;
+}
+
+.node--close svg {
+  width: 1rem;
 }
 
 [data-dragging=true] .node-header {
@@ -115,6 +131,18 @@ path {
   stroke-width: 2px;
 }
 
+.divider {
+  height: 10px;
+  border-top: 8px solid white;
+  background: black;
+  display: block;
+  cursor: ns-resize;
+}
+
+.divider:hover {
+  background: gray;
+}
+
 .nodeContainer {
-  border-bottom: 1px solid black;
+  overflow: hidden;
 }

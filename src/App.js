@@ -16,7 +16,16 @@ class App extends React.Component {
         fill: [123,21,190],
       }
     }
+
+    this.updatePen = this.updatePen.bind(this)
   }
+
+  updatePen(penObject){
+    this.setState({
+      pen: penObject
+    })
+  }
+
   componentWillMount(){
     this.setState({height: window.innerHeight, width: window.innerWidth});  
   }
@@ -24,7 +33,8 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <NodeContainer width={this.state.width} height={this.state.height * .5}></NodeContainer>
+        <NodeContainer updatePen={this.updatePen} width={this.state.width} height={this.state.height * .5}></NodeContainer>
+        <div className='divider'></div>
         <Canvas width={this.state.width} height={this.state.height * .5} pen={this.state.pen}></Canvas>
       </div>
     );

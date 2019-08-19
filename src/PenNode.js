@@ -38,7 +38,7 @@ export default class PenNode extends React.Component {
         );
 
         return (
-            <div data-dragging={this.state.dragging} className='node' key={this.props.id} style={nodeCSS}>
+            <div data-dragging={this.state.dragging} className='node permanent' key={this.props.id} style={nodeCSS}>
                 <header onMouseDown={this.handleDragStart} onMouseUp={this.handleDragEnd} className='node-header'>{this.props.title}</header>
                 <div className='node-body'>
                 </div>
