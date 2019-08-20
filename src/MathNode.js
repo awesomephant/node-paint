@@ -1,7 +1,6 @@
 // This is called Math but it just adds two inputs
 import React from 'react'
 import Socket from './Socket.js';
-
 export default class MathNode extends React.Component {
     constructor(props) {
         super(props)
@@ -36,7 +35,11 @@ export default class MathNode extends React.Component {
         let a = parseFloat(this.props.inputs[0].value);
         let b = parseFloat(this.props.inputs[1].value);
         let result = 0;
-
+        // y(t) = A sin (2PI f t + ro) where:
+        // A - Amplitude
+        // f - Frequency
+        // ro - Phase
+        
         if (this.state.operation === 'add') { result = a + b; }
         if (this.state.operation === 'subtract') { result = a - b; }
         if (this.state.operation === 'multiply') { result = a * b; }
@@ -85,6 +88,10 @@ export default class MathNode extends React.Component {
                         <option value='subtract'>Subtract</option>
                         <option value='multiply'>Multiply</option>
                         <option value='divide'>Divide</option>
+                        <option value='average'>Average</option>
+                        <option value='dot'>Dot Product</option>
+                        <option value='cross'>Cross Product</option>
+                        <option value='normal'>Normalize</option>
                     </select>
                 </div>
                 <ul className='node-inputs'>

@@ -16,6 +16,8 @@ export default class Canvas extends React.Component {
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.clear = this.clear.bind(this);
+    this.resetData = this.resetData.bind(this);
   }
   componentDidMount() {
     this.c = this.canvasRef.current.getContext('2d');
@@ -26,11 +28,17 @@ export default class Canvas extends React.Component {
     };
   }
   handleMouseMove(e) {
-    if (this.state.isDrawing){
+    if (this.state.isDrawing) {
+      this.props.updateDrawingData({
+        distance: this.props.drawingData.distance + 1,
+        speed: 0,
+        area: 0
+      })
+
       let x = e.clientX
       let y = e.clientY - this.props.height;
       this.c.fillStyle = utils.formatRGB(this.props.pen.fill);
-      this.c.fillCircle(x,y,this.props.pen.r)
+      this.c.fillCircle(x, y, this.props.pen.radius)
     }
   }
   handleMouseDown(e) {
@@ -38,15 +46,29 @@ export default class Canvas extends React.Component {
     let x = e.clientX
     let y = e.clientY - this.props.height;
     this.c.fillStyle = utils.formatRGB(this.props.pen.fill);
-    this.c.fillCircle(x,y,this.props.pen.r)
+    this.c.fillCircle(x, y, this.props.pen.radius)
   }
   handleMouseUp() {
     this.setState({ isDrawing: false })
   }
+  clear() {
+    this.c.clearRect(0, 0, this.props.width, this.props.height)
+  }
+  resetData() {
+    this.props.updateDrawingData({
+      distance: 0,
+      speed: 0,
+      area: 0
+    })
+  }
   render() {
     return (
-      <div className='canvas'>
-      <canvas height={this.props.height} width={this.props.width} ref={this.canvasRef} onMouseMove={this.handleMouseMove} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp} className='world'></canvas>
+      <div className='canvas panel'>
+        <div className='panel--menu'>
+          <button onClick={this.clear}>Clear</button>
+          <button onClick={this.resetData}>Reset Data</button>
+        </div>
+        <canvas height={this.props.height} width={this.props.width} ref={this.canvasRef} onMouseMove={this.handleMouseMove} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp} className='world'></canvas>
       </div>
     )
   }

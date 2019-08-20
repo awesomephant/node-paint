@@ -10,6 +10,8 @@ export default class PenNode extends React.Component {
         this.handleDraftConnectionDrop = this.handleDraftConnectionDrop.bind(this);
         this.handleDragStart = this.handleDragStart.bind(this)
         this.handleDragEnd = this.handleDragEnd.bind(this)
+        this.componentDidUpdate = this.componentDidUpdate.bind(this)
+        this.solve = this.solve.bind(this)
     }
 
     handleDraftConnectionDrop(socketID) {
@@ -27,6 +29,20 @@ export default class PenNode extends React.Component {
         })
         this.props.handleDragEnd(this.props.id)
     }
+    solve() {
+        let newPen = {
+            radius: this.props.inputs[0].value,
+            fill: this.props.inputs[1].value
+        };
+        return newPen;
+    }
+    componentDidUpdate() {
+        let newPen = this.solve();
+        if (this.props.pen.radius !== newPen.radius ||
+            this.props.pen.fill !== newPen.fill) {
+            this.props.updatePen(newPen)
+        }
+    }
     render() {
         const nodeCSS = {
             width: `${this.props.width}px`,
@@ -34,7 +50,7 @@ export default class PenNode extends React.Component {
             transform: `translateX(${this.props.x}px) translateY(${this.props.y}px)`
         }
         const inputs = this.props.inputs.map((socket) =>
-            <Socket key={socket.id} id={socket.id} handleDraftConnectionDrop={this.handleDraftConnectionDrop} handleDraftConnection={this.handleDraftConnection} value={socket.value} label={socket.label}></Socket>
+            <Socket type={socket.type} key={socket.id} id={socket.id} handleDraftConnectionDrop={this.handleDraftConnectionDrop} handleDraftConnection={this.handleDraftConnection} value={socket.value} label={socket.label}></Socket>
         );
 
         return (

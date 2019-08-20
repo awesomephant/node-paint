@@ -18,46 +18,6 @@ export default {
     },
     nodes: [
         {
-            type: 'number',
-            title: 'Number',
-            id: 0,
-            x: 100,
-            y: 250,
-            width: 250,
-            height: 100,
-            outputs: [
-                { label: 'Output', value: 13, id: '0' }
-            ]
-        },
-        {
-            type: 'number',
-            title: 'Number',
-            id: -1,
-            x: 100,
-            y: 450,
-            width: 250,
-            height: 100,
-            outputs: [
-                { label: 'Output', value: 13, id: '0' }
-            ]
-        },
-        {
-            type: 'math',
-            title: 'Multiply',
-            id: 1,
-            x: 500,
-            y: 350,
-            width: 250,
-            height: 110,
-            inputs: [
-                { label: 'Value A', value: 0, id: 0 },
-                { label: 'Value B', value: 0, id: 1 }
-            ],
-            outputs: [
-                { label: 'Output', value: 0, id: '0' }
-            ]
-        },
-        {
             type: 'pen',
             title: 'Pen Output',
             id: 'pen',
@@ -67,11 +27,27 @@ export default {
             height: 100,
             inputs: [
                 { label: 'Radius', value: 0, id: 0 },
-                { label: 'Fill', value: 0, id: 1 }
+                { label: 'Fill', value: 0, id: 1, type: 'color' },
+                { label: 'Hardness', value: 0, id: 2 }
             ]
-        }
+        },
+        {
+            type: 'data',
+            title: 'Drawing Info',
+            id: 'data',
+            x: 60,
+            y: 70,
+            width: 160,
+            height: 130,
+            outputs: [
+                { label: 'Total Distance', value: 0, id: 0, type: '' },
+                { label: 'Total Area', value: 0, id: 1, type: '' },
+                { label: 'Direction', value: 0, id: 2, type: '' },
+                { label: 'Mouse Position', value: 0, id: 3, type: 'vector' },
+                { label: 'Mouse Velocity', value: 0, id: 4, type: 'vector' }
+            ]
+        },
     ],
     connections: [
-        { from: { nodeID: -1, socket: 0 }, to: { nodeID: 1, socket: 1 }, id: 1 },
     ]
 }

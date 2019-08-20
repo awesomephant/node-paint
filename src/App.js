@@ -12,17 +12,31 @@ class App extends React.Component {
       width: 0,
       height: 0,
       pen: {
-        r: 20,
-        fill: [123,21,190],
+        radius: 0,
+        fill: [0,0,0],
+      },
+      drawingData: {
+        speed: 0,
+        distance: 0,
+        area: 0
       }
     }
 
     this.updatePen = this.updatePen.bind(this)
+    this.updateDrawingData = this.updateDrawingData.bind(this)
   }
 
-  updatePen(penObject){
+  updatePen(newPen){
     this.setState({
-      pen: penObject
+      pen: {
+        radius: newPen.radius,
+        fill: newPen.fill
+      }
+    })
+  }
+  updateDrawingData(newData){
+    this.setState({
+      drawingData: newData
     })
   }
 
@@ -33,9 +47,9 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <NodeContainer updatePen={this.updatePen} width={this.state.width} height={this.state.height * .5}></NodeContainer>
+        <NodeContainer drawingData={this.state.drawingData} pen={this.state.pen} updatePen={this.updatePen} width={this.state.width} height={this.state.height * .5}></NodeContainer>
         <div className='divider'></div>
-        <Canvas width={this.state.width} height={this.state.height * .5} pen={this.state.pen}></Canvas>
+        <Canvas drawingData={this.state.drawingData} updateDrawingData={this.updateDrawingData} width={this.state.width} height={this.state.height * .5} pen={this.state.pen}></Canvas>
       </div>
     );
   }
