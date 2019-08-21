@@ -32,7 +32,9 @@ export default class Canvas extends React.Component {
       this.props.updateDrawingData({
         distance: this.props.drawingData.distance + 1,
         speed: 0,
-        area: 0
+        area: 0,
+        x: e.clientX,
+        y: e.clientY - this.props.height
       })
 
       let x = e.clientX
@@ -58,7 +60,9 @@ export default class Canvas extends React.Component {
     this.props.updateDrawingData({
       distance: 0,
       speed: 0,
-      area: 0
+      area: 0,
+      x: 0,
+      y: 0
     })
   }
   render() {

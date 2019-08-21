@@ -12,12 +12,17 @@ export default class MathNode extends React.Component {
         this.handleDraftConnectionDrop = this.handleDraftConnectionDrop.bind(this)
         this.handleDragStart = this.handleDragStart.bind(this)
         this.handleDragEnd = this.handleDragEnd.bind(this)
+        this.handleClose = this.handleClose.bind(this);
 
         this.state = {
             operation: 'add'
         }
-
     }
+
+    handleClose() {
+        this.props.removeNode(this.props.id)
+    }
+
     handleDragStart() {
         this.setState({
             dragging: true
@@ -39,7 +44,7 @@ export default class MathNode extends React.Component {
         // A - Amplitude
         // f - Frequency
         // ro - Phase
-        
+
         if (this.state.operation === 'add') { result = a + b; }
         if (this.state.operation === 'subtract') { result = a - b; }
         if (this.state.operation === 'multiply') { result = a * b; }
@@ -81,7 +86,13 @@ export default class MathNode extends React.Component {
         );
         return (
             <div data-dragging={this.state.dragging} className='node' style={nodeCSS}>
-                <header onMouseDown={this.handleDragStart} onMouseUp={this.handleDragEnd} className='node-header'>Math</header>
+                <header onMouseDown={this.handleDragStart} onMouseUp={this.handleDragEnd} className='node-header'>Math
+                <button onClick={this.handleClose} className='node--close'>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                        </svg>
+                        Close</button>
+                </header>
                 <div className='node-body'>
                     <select value={this.state.operation} onChange={this.handleSelect}>
                         <option value='add'>Add</option>

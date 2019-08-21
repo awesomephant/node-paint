@@ -17,12 +17,13 @@ export default class NumberNode extends React.Component {
         this.handleDraftConectionDrop = this.handleDraftConectionDrop.bind(this)
     }
 
-    handleClose(e){
+    handleClose(){
         this.props.removeNode(this.props.id)
     }
 
     handleChange(e) {
-        let v = e.target.value
+        let v = parseFloat(e.target.value)
+        if (isNaN(v)){v = 0}
         this.props.updateOutput(this.props.id, 0, v)
         this.props.update(this.props.id)
     }

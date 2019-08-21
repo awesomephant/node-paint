@@ -30,8 +30,10 @@ export default class PenNode extends React.Component {
         this.props.handleDragEnd(this.props.id)
     }
     solve() {
+        let r = this.props.inputs[0].value
+        if (r < 0){r = 0}
         let newPen = {
-            radius: this.props.inputs[0].value,
+            radius: r,
             fill: this.props.inputs[1].value
         };
         return newPen;

@@ -38,13 +38,14 @@ export default {
             x: 60,
             y: 70,
             width: 160,
-            height: 130,
+            height: 150,
             outputs: [
-                { label: 'Total Distance', value: 0, id: 0, type: '' },
-                { label: 'Total Area', value: 0, id: 1, type: '' },
+                { label: 'Distance', value: 0, id: 0, type: '' },
+                { label: 'Area', value: 0, id: 1, type: '' },
                 { label: 'Direction', value: 0, id: 2, type: '' },
-                { label: 'Mouse Position', value: 0, id: 3, type: 'vector' },
-                { label: 'Mouse Velocity', value: 0, id: 4, type: 'vector' }
+                { label: 'Pen X', value: 0, id: 3, type: '' },
+                { label: 'Pen Y', value: 0, id: 4, type: '' },
+                { label: 'Velocity', value: 5, id: 6, type: '' }
             ]
         },
     ],

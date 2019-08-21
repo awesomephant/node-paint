@@ -52,7 +52,8 @@ export default function makeNode(type, x, y) {
         node.inputs.push({ label: 'Amplitude', value: 0, id: '0' });
         node.inputs.push({ label: 'Frequency', value: 0, id: '1' });
         node.inputs.push({ label: 'Phase', value: 0, id: '2' });
-        node.outputs.push({ label: 'Value', value: 0, id: '3' });
+        
+        node.outputs.push({ label: 'Value', value: 0, id: '0' });
     }
 
     return node;

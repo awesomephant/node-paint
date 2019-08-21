@@ -14,6 +14,8 @@ class App extends React.Component {
       pen: {
         radius: 0,
         fill: [0,0,0],
+        x: 0,
+        y: 0
       },
       drawingData: {
         speed: 0,
@@ -29,6 +31,8 @@ class App extends React.Component {
   updatePen(newPen){
     this.setState({
       pen: {
+        x: newPen.x,
+        y: newPen.y,
         radius: newPen.radius,
         fill: newPen.fill
       }

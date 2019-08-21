@@ -18,6 +18,7 @@ export default class ContextMenu extends React.Component {
             <ul className='menu' style={menuCSS}>
                 <li className='menu--item header'>Basic</li>
                 <li className='menu--item'><button data-value='number' onClick={this.handleClick}>Number</button></li>
+                <li className='menu--item'><button data-value='split' onClick={this.handleClick}>Split Vector</button></li>
                 <li className='menu--item'><button data-value='display' onClick={this.handleClick}>Display</button></li>
                 <li className='menu--item'><button data-value='math' onClick={this.handleClick}>Math</button></li>
                 <li className='menu--item'><button data-value='wave' onClick={this.handleClick}>Wave</button></li>

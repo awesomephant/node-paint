@@ -23,10 +23,21 @@ export default class NumberNode extends React.Component {
 
     componentDidUpdate(){
         let d = this.props.drawingData.distance;
+        let x = this.props.drawingData.x;
+        let y = this.props.drawingData.y;
+
         if (d !== this.props.outputs[0].value){
             this.props.updateOutput(this.props.id, 0, d)
             this.props.update(this.props.id)
         }
+        if (x !== this.props.outputs[3].value){
+            this.props.updateOutput(this.props.id, 3, x)
+            this.props.update(this.props.id)
+        }
+         if (y !== this.props.outputs[4].value){
+             this.props.updateOutput(this.props.id, 4, y)
+             this.props.update(this.props.id)
+         }
     }
 
     handleDragStart() {
