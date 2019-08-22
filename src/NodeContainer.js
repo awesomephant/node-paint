@@ -7,6 +7,7 @@ import PenNode from './PenNode'
 import DataNode from './DataNode.js'
 import RGBNode from './RGBNode.js'
 import WaveNode from './WaveNode.js'
+import RampNode from './RampNode.js'
 
 import Connection from './Connection.js'
 import testState from './testState.js'
@@ -35,7 +36,7 @@ export default class NodeContainer extends React.Component {
 
     componentDidMount() {
         this.setState((prevState) => {
-            prevState.nodes.push(makeNode('wave', 300, 400))
+            prevState.nodes.push(makeNode('ramp', 300, 400))
             return prevState;
         })
     }
@@ -249,6 +250,8 @@ export default class NodeContainer extends React.Component {
                 return <RGBNode removeNode={this.removeNode} handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateNodes={this.updateNodes} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} inputs={node.inputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></RGBNode>
             } else if (node.type === 'wave') {
                 return <WaveNode removeNode={this.removeNode} handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateNodes={this.updateNodes} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} inputs={node.inputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></WaveNode>
+            } else if (node.type === 'ramp'){
+                return <RampNode removeNode={this.removeNode} handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateNodes={this.updateNodes} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} inputs={node.inputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></RampNode>
             }
             return false;
         }, this);

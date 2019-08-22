@@ -19,6 +19,7 @@ export default function makeNode(type, x, y) {
     if (type === 'math') {
         node.title = 'Math';
         node.height = 130;
+        node.width = 210;
         node.outputs.push({ label: 'Output', value: 0, id: 0 })
         node.inputs.push({ label: 'Input A', value: 0, id: 0 })
         node.inputs.push({ label: 'Input B', value: 0, id: 1 })
@@ -52,8 +53,14 @@ export default function makeNode(type, x, y) {
         node.inputs.push({ label: 'Amplitude', value: 0, id: '0' });
         node.inputs.push({ label: 'Frequency', value: 0, id: '1' });
         node.inputs.push({ label: 'Phase', value: 0, id: '2' });
-        
+    
         node.outputs.push({ label: 'Value', value: 0, id: '0' });
+    }
+    if (type === 'ramp') {
+        node.title = 'Colour Ramp'
+        node.height = 200;
+        node.inputs.push({ label: 'Position', value: 0.2, id: '0' }); 
+        node.outputs.push({ label: 'Color', value: [0,0,0], id: '0', type: 'color' });
     }
 
     return node;

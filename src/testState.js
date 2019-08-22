@@ -21,12 +21,12 @@ export default {
             type: 'pen',
             title: 'Pen Output',
             id: 'pen',
-            x: 660,
+            x: 960,
             y: 500,
             width: 160,
             height: 100,
             inputs: [
-                { label: 'Radius', value: 0, id: 0 },
+                { label: 'Radius', value: 35, id: 0 },
                 { label: 'Fill', value: 0, id: 1, type: 'color' },
                 { label: 'Hardness', value: 0, id: 2 }
             ]
@@ -48,7 +48,20 @@ export default {
                 { label: 'Velocity', value: 5, id: 6, type: '' }
             ]
         },
+        {
+            type: 'number',
+            title: 'Number',
+            id: 'n1',
+            x: 760,
+            y: 370,
+            width: 160,
+            height: 100,
+            outputs: [
+                { label: 'Value', value: 35, id: 0, type: '' }
+            ]
+        },
     ],
     connections: [
+        {from: {nodeID: 'n1', socket: 0}, to: {nodeID: 'pen', socket: 0}}
     ]
 }

@@ -26,6 +26,9 @@ export default class NumberNode extends React.Component {
         let x = this.props.drawingData.x;
         let y = this.props.drawingData.y;
 
+        if (isNaN(x)){x = 0}
+        if (isNaN(y)){y = 0}
+
         if (d !== this.props.outputs[0].value){
             this.props.updateOutput(this.props.id, 0, d)
             this.props.update(this.props.id)
