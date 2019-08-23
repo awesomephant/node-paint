@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/node-paint/static/css/main.7f1af4cc.chunk.css",
+    "main.js": "/node-paint/static/js/main.88f13fb7.chunk.js",
+    "main.js.map": "/node-paint/static/js/main.88f13fb7.chunk.js.map",
+    "runtime~main.js": "/node-paint/static/js/runtime~main.d6ede3dc.js",
+    "runtime~main.js.map": "/node-paint/static/js/runtime~main.d6ede3dc.js.map",
+    "static/js/2.5dbd8ed4.chunk.js": "/node-paint/static/js/2.5dbd8ed4.chunk.js",
+    "static/js/2.5dbd8ed4.chunk.js.map": "/node-paint/static/js/2.5dbd8ed4.chunk.js.map",
+    "index.html": "/node-paint/index.html",
+    "precache-manifest.a2d6d5fdf16bdb2616a4615cf9e0bdcb.js": "/node-paint/precache-manifest.a2d6d5fdf16bdb2616a4615cf9e0bdcb.js",
+    "service-worker.js": "/node-paint/service-worker.js",
+    "static/css/main.7f1af4cc.chunk.css.map": "/node-paint/static/css/main.7f1af4cc.chunk.css.map"
+  }
+}
