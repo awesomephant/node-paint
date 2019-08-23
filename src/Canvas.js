@@ -76,8 +76,9 @@ export default class Canvas extends React.Component {
     return (
       <div className='canvas panel'>
         <div className='panel--menu'>
+          <button onClick={this.resetData}>Reset</button>
           <button onClick={this.clear}>Clear</button>
-          <button onClick={this.resetData}>Reset Data</button>
+          <button onClick={this.clear}>Save</button>
         </div>
         <canvas height={this.props.height} width={this.props.width} ref={this.canvasRef} onMouseMove={this.handleMouseMove} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp} className='world'></canvas>
       </div>

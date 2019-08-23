@@ -31,11 +31,42 @@ body {
 
 .gradient {
   width: 100%;
-  height: 80px;
-  overflow: hidden;
-  border: 1px solid black;
   border-radius: 2px;
 }
+
+.gradient--canvas {
+  border: 1px solid black;
+}
+
+.gradient--stops {
+  position: relative;
+  height: 14px;
+}
+.gradient--stop {
+  list-style: none;
+  position: absolute;
+  border: 1px solid black;
+  top: 0;
+  font-size: 0;
+  height: 12px;
+  width: 12px;
+  border-radius: 1000%;
+  transform: translateX(-50%);
+}
+
+.gradient--stop:hover {
+  opacity: .8;
+}
+
+.gradient--stop input {
+  cursor: pointer;
+  appearance: none;
+  border-radius: 0 !important;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
 .socket {
   list-style: none;
   font-size: .85rem;
@@ -158,6 +189,10 @@ body {
   /* background: rgb(231, 231, 231); */
 }
 
+.node-body input:invalid {
+  box-shadow: none;
+}
+
 .wave--canvas{
   width: 100%;
   border: 1px solid black;
@@ -183,7 +218,7 @@ path {
 }
 
 .divider {
-  height: 10px;
+  height: 9px;
   border-top: 8px solid white;
   background: black;
   display: block;
@@ -203,17 +238,32 @@ path {
 }
 
 .panel--menu {
-  padding: .5rem;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: .5rem;
+  left: .5rem;
   display: flex;
+  border: 1px solid black;
+  border-bottom-width: 2px;
+  border-radius: 2px;
 }
 
 .panel--menu button {
-  border: 1px solid black;
-  padding: .5em;
-  font-size: .8rem;
+  border: 0;
+  border-right: 1px solid black;
+  padding: .3em .5em;
+  letter-spacing: .01em;
+  font-size: .9rem;
+  background: white;
   cursor: pointer;
-  margin-right: .5em;
+  font-family: 'IBM Plex Sans';
+  border-top: 1px solid transparent;
+}
+
+.panel--menu button:last-of-type {
+  border-right: 0;
+}
+.panel--menu button:hover {
+  background: rgb(235,235,235); 
+}
+.panel--menu button:focus {
 }

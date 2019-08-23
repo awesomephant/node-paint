@@ -62,6 +62,6 @@ export default {
         },
     ],
     connections: [
-        {from: {nodeID: 'n1', socket: 0}, to: {nodeID: 'pen', socket: 0}}
+        {id: 0, from: {nodeID: 'n1', socket: 0}, to: {nodeID: 'pen', socket: 0}}
     ]
 }

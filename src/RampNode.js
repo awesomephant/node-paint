@@ -7,11 +7,13 @@ export default class NumberNode extends React.Component {
         super(props)
 
         this.state = {
-            dragging: false,
+            dragging: false,  // should be a prop
+
+            draggingStopIndex: null,
             stops: [
-                { position: 0.0, color: 'red' },
-                { position: 0.3, color: 'pink' },
-                { position: 1.0, color: 'green' }
+                { position: 0.0, color: '#ff33aa' },
+                { position: 0.3, color: '#1199ff' },
+                { position: 1.0, color: '#aabbcc' }
             ]
         }
 
@@ -25,8 +27,13 @@ export default class NumberNode extends React.Component {
         this.handleDraftConnection = this.handleDraftConnection.bind(this)
         this.handleDraftConnectionDrop = this.handleDraftConnectionDrop.bind(this)
         this.solve = this.solve.bind(this);
-
         this.drawGradient = this.drawGradient.bind(this)
+        this.handleStopColorChange = this.handleStopColorChange.bind(this)
+        this.handleStopMouseDown = this.handleStopMouseDown.bind(this)
+        this.handleStopMouseUp = this.handleStopMouseUp.bind(this)
+        this.handleStopDrag = this.handleStopDrag.bind(this)
+        this.addStop = this.addStop.bind(this)
+        this.removeStop = this.removeStop.bind(this)
 
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
@@ -52,7 +59,17 @@ export default class NumberNode extends React.Component {
         this.c.fillStyle = gradient;
         this.c.fillRect(0, 0, this.c.canvas.width, this.c.canvas.height);
         this.c.fillStyle = 'black';
-        this.c.fillRect(this.props.inputs[0].value * this.c.canvas.width, 0, 1, this.c.canvas.height);
+
+        let v = this.props.inputs[0].value;
+
+        if (v < 0) {
+            v = 0
+        } else if (v > 1) {
+            v = 1
+        };
+
+
+        this.c.fillRect(v * this.c.canvas.width, 12, 1, this.c.canvas.height);
     }
 
     handleDragStart() {
@@ -68,6 +85,45 @@ export default class NumberNode extends React.Component {
         this.props.handleDragEnd(this.props.id)
     }
 
+    handleStopColorChange(e) {
+        let index = e.target.dataset.index;
+        let value = e.target.value;
+        this.setState((prevState) => {
+            prevState.stops[index].color = value
+            return prevState;
+        })
+    }
+    handleStopMouseDown(e) {
+        this.setState({ draggingStopIndex: e.target.dataset.index })
+    }
+    handleStopMouseUp(e) {
+        console.log(e)
+        this.setState({ draggingStopIndex: null })
+    }
+
+    addStop(e) {
+        this.setState((prevState) => {
+            prevState.stops.push({position: .5, color: '#123543'})
+        })
+    }
+    removeStop(e) {
+        let index = e.target.dataset.index;
+        this.setState((prevState) => {
+            prevState.stops.splice(index, 1)
+        })
+    }
+
+    handleStopDrag(e) {
+        let x = (e.clientX - this.props.x) / (this.props.width);
+        if (x > 1) { x = 1 }
+        if (this.state.draggingStopIndex !== null) {
+            this.setState((prevState) => {
+                prevState.stops[this.state.draggingStopIndex].position = x;
+                return prevState;
+            })
+        }
+    }
+
     handleDraftConnection(socketID) {
         this.props.startDraftConnection(this.props.id, socketID)
     }
@@ -79,7 +135,7 @@ export default class NumberNode extends React.Component {
     componentDidMount() {
         this.c = this.canvasRef.current.getContext('2d')
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.removeNode(this.props.id)
     }
 
@@ -92,10 +148,17 @@ export default class NumberNode extends React.Component {
             this.props.updateNodes(this.props.id);
         }
     }
+    handleInputMouseUp(e) {
+        e.preventDefault();
+    }
 
     solve() {
-        let x = (this.props.inputs[0].value * this.c.canvas.width) + 3
-        let imageData = this.c.getImageData(x, 10, 1, 1).data;
+        let v = this.props.inputs[0].value;
+        if (v > 1) { v = 1 };
+        if (v < 0) { v = 0 };
+
+        let x = (v * this.c.canvas.width)
+        let imageData = this.c.getImageData(x, 1, 1, 1).data;
         return [imageData[0], imageData[1], imageData[2]]
     }
 
@@ -112,9 +175,20 @@ export default class NumberNode extends React.Component {
         const outputs = this.props.outputs.map((socket) =>
             <Socket key={socket.id} id={socket.id} finishDraftConnectionDrop={this.handleDraftConnectionDrop} handleDraftConnection={this.handleDraftConnection} value={socket.value} type={socket.type} label={socket.label}></Socket>
         );
+        const stops = this.state.stops.map((stop, index) => {
+            let stopCSS = {
+                left: `${stop.position * 100}%`,
+                background: `${stop.color}`,
+            }
+            return (
+                <li onMouseDown={this.handleStopMouseDown} onMouseUp={this.handleStopMouseUp} key={index} style={stopCSS} className='gradient--stop ' data-dragging={stop.dragging}>
+                    <input type='color' data-index={index} value={stop.color} onChange={this.handleStopColorChange}></input>
+                </li>
+            )
+        });
 
         return (
-            <div data-dragging={this.state.dragging} className='node' key={this.props.id} style={nodeCSS}>
+            <div onMouseUp={this.handleStopMouseUp} data-dragging={this.state.dragging} className='node' key={this.props.id} style={nodeCSS}>
                 <header onMouseDown={this.handleDragStart} onMouseUp={this.handleDragEnd} className='node-header'>
                     <span>{this.props.title}</span>
                     <button onClick={this.handleClose} className='node--close'>
@@ -125,7 +199,10 @@ export default class NumberNode extends React.Component {
                 </header>
                 <div className='node-body'>
                     <div className='gradient'>
-                        <canvas ref={this.canvasRef} height='80' className='gradient--canvas'></canvas>
+                        <canvas ref={this.canvasRef} width={this.props.width - 20 + 'px'} height='80' className='gradient--canvas'></canvas>
+                        <ul className='gradient--stops' onMouseMove={this.handleStopDrag}>
+                            {stops}
+                        </ul>
                     </div>
                 </div>
                 <ul className='node-inputs'>
