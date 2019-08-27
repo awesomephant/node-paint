@@ -25,7 +25,7 @@ export default class ContextMenu extends React.Component {
                 <li className='menu--item header'>Colour</li>
                 <li className='menu--item'><button data-value='rgbSplit' onClick={this.handleClick}>Split RGB</button></li>
                 <li className='menu--item'><button data-value='rgbCombine' onClick={this.handleClick}>Combine RGB</button></li>
-                <li className='menu--item'><button data-value='picker' onClick={this.handleClick}>Colour Picker</button></li>
+                <li className='menu--item'><button data-value='rgbPicker' onClick={this.handleClick}>Colour Picker</button></li>
                 <li className='menu--item'><button data-value='ramp' onClick={this.handleClick}>Colour Ramp</button></li>
             </ul>
         )

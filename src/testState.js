@@ -18,6 +18,19 @@ export default {
     },
     nodes: [
         {
+            type: 'rgbPicker',
+            title: 'Pen Output',
+            id: '1',
+            x: 660,
+            y: 540,
+            width: 160,
+            height: 80,
+            inputs: [],
+            outputs: [
+                { label: 'Color', value: [0,0,0], id: 1, type: 'color' }
+            ]
+        },
+        {
             type: 'pen',
             title: 'Pen Output',
             id: 'pen',
@@ -26,7 +39,7 @@ export default {
             width: 160,
             height: 80,
             inputs: [
-                { label: 'Radius', value: 35, id: 0 },
+                { label: 'Radius', value: 0, id: 0 },
                 { label: 'Fill', value: 0, id: 1, type: 'color' }
             ]
         },
@@ -35,7 +48,7 @@ export default {
             title: 'Drawing Info',
             id: 'data',
             x: 60,
-            y: 70,
+            y: 250,
             width: 160,
             height: 90,
             outputs: [
@@ -46,5 +59,7 @@ export default {
         },
     ],
     connections: [
+        {from: {nodeID: 'data', socket: 0}, to: {nodeID: 'pen', socket: 0}},
+        {from: {nodeID: '1', socket: 0}, to: {nodeID: 'pen', socket: 1}},
     ]
 }

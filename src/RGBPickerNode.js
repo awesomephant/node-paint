@@ -55,7 +55,6 @@ export default class NumberNode extends React.Component {
 
     formatOutput(){
         let hex = utils.rgbToHex(this.props.outputs[0].value)
-        console.log(hex)
         return hex
     }
 

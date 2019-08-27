@@ -40,11 +40,11 @@ export default class NumberNode extends React.Component {
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
     }
 
-    handleClose(e) {
+    handleClose() {
         this.props.removeNode(this.props.id)
     }
 
-    handleChange(e) {
+    handleChange() {
         let v = this.solve()
         this.props.updateOutput(this.props.id, 0, v)
         this.props.update(this.props.id)

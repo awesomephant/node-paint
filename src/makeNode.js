@@ -2,7 +2,7 @@ export default function makeNode(type, x, y) {
     let node = {
         type: type,
         title: 'New Node',
-        id: Math.random(),
+        id: Math.random().toFixed(5),
         x: x,
         y: y,
         width: 250,
@@ -14,7 +14,7 @@ export default function makeNode(type, x, y) {
     if (type === 'number') {
         node.title = 'Number'
         node.width = 180;
-        node.outputs.push({ label: 'Output', value: 0, id: 0 })
+        node.outputs.push({ label: 'Value', value: 0, id: 0 })
     }
     if (type === 'math') {
         node.title = 'Math';
@@ -65,13 +65,13 @@ export default function makeNode(type, x, y) {
         node.inputs.push({ label: 'Amplitude', value: 0, id: '0' });
         node.inputs.push({ label: 'Frequency', value: 0, id: '1' });
         node.inputs.push({ label: 'Phase', value: 0, id: '2' });
-    
         node.outputs.push({ label: 'Value', value: 0, id: '0' });
     }
+    
     if (type === 'ramp') {
-        node.title = 'Colour Ramp'
+        node.title = 'Color Ramp'
         node.height = 200;
-        node.inputs.push({ label: 'Position', value: 0.2, id: '0' }); 
+        node.inputs.push({ label: 'Position', value: 0.5, id: '0' }); 
         node.outputs.push({ label: 'Color', value: [0,0,0], id: '0', type: 'color' });
     }
 

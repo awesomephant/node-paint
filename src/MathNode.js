@@ -44,12 +44,13 @@ export default class MathNode extends React.Component {
         // A - Amplitude
         // f - Frequency
         // ro - Phase
-
-        if (this.state.operation === 'add') { result = a + b; }
-        if (this.state.operation === 'subtract') { result = a - b; }
-        if (this.state.operation === 'multiply') { result = a * b; }
-        if (this.state.operation === 'divide' && b !== 0) { result = a / b; }
-        if (this.state.operation === 'average') { result = ((a + b) / 2); }
+        if (isNaN(a) === false && isNaN(b) === false){
+            if (this.state.operation === 'add') { result = a + b; }
+            if (this.state.operation === 'subtract') { result = a - b; }
+            if (this.state.operation === 'multiply') { result = a * b; }
+            if (this.state.operation === 'divide' && b !== 0) { result = a / b; }
+            if (this.state.operation === 'average') { result = ((a + b) / 2); }
+        }
 
         return result;
     }

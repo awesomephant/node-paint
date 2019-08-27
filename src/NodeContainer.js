@@ -39,8 +39,6 @@ export default class NodeContainer extends React.Component {
 
     componentDidMount() {
         this.setState((prevState) => {
-            prevState.nodes.push(makeNode('ramp', 300, 400))
-            prevState.nodes.push(makeNode('rgbPicker', 600, 400))
             return prevState;
         })
     }
@@ -54,20 +52,21 @@ export default class NodeContainer extends React.Component {
     }
     removeNode(nodeID) {
         let index = this.getNodeByID(nodeID);
+        if (index !== false) {
+            this.setState((prevState) => {
+                // Find affected connections and remove them
+                prevState.connections = prevState.connections.filter(c => {
+                    if (c.from.nodeID === nodeID || c.to.nodeID === nodeID) {
+                        return false
+                    }
+                    return true;
+                })
 
-        this.setState((prevState) => {
-            // Find affected connections and remove them
-            prevState.connections = prevState.connections.filter(c => {
-                if (c.from.nodeID === nodeID || c.to.nodeID === nodeID) {
-                    return false
-                }
-                return true;
+                prevState.nodes.splice(index, 1)
+                return prevState;
             })
 
-            prevState.nodes.splice(index, 1)
-            return prevState;
-        })
-
+        }
     }
     startDraftConnection(nodeID, socket) {
         this.setState({
@@ -252,17 +251,17 @@ export default class NodeContainer extends React.Component {
                 return <PenNode pen={this.props.pen} updatePen={this.props.updatePen} handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateOutput={this.updateOutput} update={this.updateNodes} inputs={node.inputs} outputs={node.outputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></PenNode>
             } else if (node.type === 'rgbCombine') {
                 return <RGBNode removeNode={this.removeNode} handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateNodes={this.updateNodes} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} inputs={node.inputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></RGBNode>
-                
+
             } else if (node.type === 'rgbPicker') {
                 return <RGBPickerNode removeNode={this.removeNode} handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateNodes={this.updateNodes} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} inputs={node.inputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></RGBPickerNode>
-                
+
             } else if (node.type === 'rgbSplit') {
                 return <RGBSplitNode removeNode={this.removeNode} handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateNodes={this.updateNodes} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} inputs={node.inputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></RGBSplitNode>
             } else if (node.type === 'wave') {
                 return <WaveNode removeNode={this.removeNode} handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateNodes={this.updateNodes} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} inputs={node.inputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></WaveNode>
-            } else if (node.type === 'ramp'){
+            } else if (node.type === 'ramp') {
                 return <RampNode removeNode={this.removeNode} handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} finishDraftConnection={this.finishDraftConnection} startDraftConnection={this.startDraftConnection} updateNodes={this.updateNodes} updateOutput={this.updateOutput} update={this.updateNodes} outputs={node.outputs} inputs={node.inputs} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></RampNode>
-            } else if (node.type === 'info'){
+            } else if (node.type === 'info') {
                 return <InfoNode removeNode={this.removeNode} handleDragStart={this.handleDragStart} handleDragEnd={this.handleDragEnd} width={node.width} height={node.height} x={node.x} y={node.y} key={node.id} id={node.id} title={node.title}></InfoNode>
             }
             return false;
