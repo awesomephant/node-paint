@@ -19,7 +19,7 @@ export default {
     nodes: [
         {
             type: 'rgbPicker',
-            title: 'Pen Output',
+            title: 'Color Picker',
             id: '1',
             x: 660,
             y: 540,
