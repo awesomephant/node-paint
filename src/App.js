@@ -53,7 +53,7 @@ class App extends React.Component {
       <div className="app">
         <header className='app--header'>
           <h1>Node Paint</h1>
-          <a href='#1'>Info</a>
+          <a href='https://www.maxkoehler.com/work/node-paint/'>Info</a>
         </header>
         <NodeContainer drawingData={this.state.drawingData} pen={this.state.pen} updatePen={this.updatePen} width={this.state.width} height={this.state.height * .5}></NodeContainer>
         <div className='divider'></div>
