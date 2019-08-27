@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/node-paint/static/css/main.cb085b2e.chunk.css",
-    "main.js": "/node-paint/static/js/main.aadb4fe0.chunk.js",
-    "main.js.map": "/node-paint/static/js/main.aadb4fe0.chunk.js.map",
+    "main.js": "/node-paint/static/js/main.09163353.chunk.js",
+    "main.js.map": "/node-paint/static/js/main.09163353.chunk.js.map",
     "runtime~main.js": "/node-paint/static/js/runtime~main.d6ede3dc.js",
     "runtime~main.js.map": "/node-paint/static/js/runtime~main.d6ede3dc.js.map",
     "static/js/2.5dbd8ed4.chunk.js": "/node-paint/static/js/2.5dbd8ed4.chunk.js",
     "static/js/2.5dbd8ed4.chunk.js.map": "/node-paint/static/js/2.5dbd8ed4.chunk.js.map",
     "index.html": "/node-paint/index.html",
-    "precache-manifest.1163d5c37659b6da58bb7dca2ab53dd0.js": "/node-paint/precache-manifest.1163d5c37659b6da58bb7dca2ab53dd0.js",
+    "precache-manifest.1d56824cd90e93445f3db3f7444535ef.js": "/node-paint/precache-manifest.1d56824cd90e93445f3db3f7444535ef.js",
     "service-worker.js": "/node-paint/service-worker.js",
     "static/css/main.cb085b2e.chunk.css.map": "/node-paint/static/css/main.cb085b2e.chunk.css.map"
   }
