@@ -1,0 +1,86 @@
+.gradient {
+    width: 100%;
+    border-radius: 2px;
+}
+
+.gradient--canvas {
+    border: 1px solid black;
+}
+
+.gradient--stops {
+    position: relative;
+    height: 14px;
+    width: calc(100% - 12px);
+    cursor: pointer;
+}
+
+.stop--controls {
+    border: 1px solid black;
+    display: flex;
+    padding: 2px;
+    padding-bottom: 0;
+    border-radius: 2px;
+    position: relative;
+    top: 6px;
+    transform: translateX(-36%) translateY(4px);
+    background: white;
+}
+.gradient--stop input{
+    visibility: hidden;
+    height: 0;
+    width: 0;
+}
+.stop--controls:before {
+    content: '';
+    background: black;
+    width: 1px;
+    height: 12px;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 50%;
+    transform: translateY(-100%) translateX(-50%)
+}
+
+.stop--remove, .stop--edit {
+    flex-basis: 50%;
+    appearance: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+.stop--remove:hover path, .stop--edit:hover path{
+    fill: grey;
+}
+.stop--remove svg{
+    width: 18px;
+}
+.stop--edit  {
+    margin-right: 3px;
+}
+.stop--edit svg {
+    width: 18px;
+    position: relative;
+    top: 2px;
+}
+.stop--remove path, .stop--edit path {
+    stroke: none;
+    fill: black;
+}
+
+.stop--indicator {
+    border: 1px solid black;
+    height: 12px;
+    width: 12px;
+    display: block;
+    border-radius: 100%;
+    cursor: col-resize;
+    
+}
+
+.gradient--stop {
+    list-style: none;
+    position: absolute;
+    top: 0;
+    transform: translateX(-0%);
+}

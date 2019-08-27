@@ -31,14 +31,26 @@ export default function makeNode(type, x, y) {
         node.inputs.push({ label: 'Input', value: 0, id: 0 })
     }
     
-    if (type === 'rgb') {
+    if (type === 'rgbCombine') {
         node.title = 'Combine RGB'
         node.width = 140
         node.inputs.push({ label: 'R', value: 0, id: 0 })
         node.inputs.push({ label: 'G', value: 0, id: 1 })
         node.inputs.push({ label: 'B', value: 0, id: 2 })
-        
         node.outputs.push({ label: 'Color', value: 0, id: 0, type: 'color' })
+    }
+    if (type === 'rgbSplit') {
+        node.title = 'Split RGB'
+        node.width = 140
+        node.inputs.push({ label: 'Color', value: 0, id: 0, type: 'color' }) 
+        node.outputs.push({ label: 'R', value: 0, id: 0 })
+        node.outputs.push({ label: 'G', value: 0, id: 1 })
+        node.outputs.push({ label: 'B', value: 0, id: 2 })
+    }
+    if (type === 'rgbPicker') {
+        node.title = 'Color Picker'
+        node.width = 140
+        node.outputs.push({ label: 'Color', type: 'color', value: [123,32,255], id: 0 })
     }
 
     if (type === 'pen') {

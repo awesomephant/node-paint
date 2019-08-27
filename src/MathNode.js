@@ -49,6 +49,7 @@ export default class MathNode extends React.Component {
         if (this.state.operation === 'subtract') { result = a - b; }
         if (this.state.operation === 'multiply') { result = a * b; }
         if (this.state.operation === 'divide' && b !== 0) { result = a / b; }
+        if (this.state.operation === 'average') { result = ((a + b) / 2); }
 
         return result;
     }
@@ -100,9 +101,6 @@ export default class MathNode extends React.Component {
                         <option value='multiply'>Multiply</option>
                         <option value='divide'>Divide</option>
                         <option value='average'>Average</option>
-                        <option value='dot'>Dot Product</option>
-                        <option value='cross'>Cross Product</option>
-                        <option value='normal'>Normalize</option>
                     </select>
                 </div>
                 <ul className='node-inputs'>

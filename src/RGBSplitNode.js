@@ -1,6 +1,5 @@
 import React from 'react'
 import Socket from './Socket.js';
-import * as utils from './utils.js';
 
 export default class NumberNode extends React.Component {
     constructor(props) {
@@ -34,20 +33,18 @@ export default class NumberNode extends React.Component {
         this.props.handleDragStart(this.props.id)
     }
     solve() {
-        let r = parseFloat(this.props.inputs[0].value);
-        let g = parseFloat(this.props.inputs[1].value);
-        let b = parseFloat(this.props.inputs[2].value);
-
-        if (r > 255){r = 255}
-        if (g > 255){g = 255}
-        if (b > 255){b = 255}
-
-        return [r, g, b];
+        let rgb = this.props.inputs[0].value;
+        return [rgb[0], rgb[1], rgb[2]];
     }
     componentDidUpdate(prevProps) {
         let outputValue = this.solve();
-        if (utils.compareArrays(this.props.outputs[0].value, outputValue) === false) {
-            this.props.updateOutput(this.props.id, 0, outputValue)
+        if (this.props.outputs[0].value !== outputValue[0] ||
+            this.props.outputs[1].value !== outputValue[1] ||
+            this.props.outputs[2].value !== outputValue[2]) {
+            
+                this.props.updateOutput(this.props.id, 0, outputValue[0])
+            this.props.updateOutput(this.props.id, 1, outputValue[1])
+            this.props.updateOutput(this.props.id, 2, outputValue[2])
             this.props.updateNodes(this.props.id);
         }
     }
@@ -73,7 +70,7 @@ export default class NumberNode extends React.Component {
             transform: `translateX(${this.props.x}px) translateY(${this.props.y}px)`
         }
         const inputs = this.props.inputs.map((socket) =>
-            <Socket handleDraftConnectionDrop={this.handleDraftConnectionDrop} key={socket.id} id={socket.id} value={socket.value} label={socket.label}></Socket>
+            <Socket type={socket.type} handleDraftConnectionDrop={this.handleDraftConnectionDrop} key={socket.id} id={socket.id} value={socket.value} label={socket.label}></Socket>
         );
         const outputs = this.props.outputs.map((socket) =>
             <Socket type={socket.type} key={socket.id} id={socket.id} finishDraftConnectionDrop={this.handleDraftConnectionDrop} handleDraftConnection={this.handleDraftConnection} value={socket.value} label={socket.label}></Socket>

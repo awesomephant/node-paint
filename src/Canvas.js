@@ -18,6 +18,7 @@ export default class Canvas extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.clear = this.clear.bind(this);
     this.resetData = this.resetData.bind(this);
+    this.saveImage = this.saveImage.bind(this)
   }
   componentDidMount() {
     this.c = this.canvasRef.current.getContext('2d');
@@ -32,7 +33,6 @@ export default class Canvas extends React.Component {
       this.props.updateDrawingData({
         distance: this.props.drawingData.distance + 1,
         speed: 0,
-        area: 0,
         x: e.clientX,
         y: e.clientY - this.props.height
       })
@@ -48,7 +48,6 @@ export default class Canvas extends React.Component {
     this.props.updateDrawingData({
       distance: this.props.drawingData.distance + 1,
       speed: 0,
-      area: 0,
       x: e.clientX,
       y: e.clientY - this.props.height
     })
@@ -62,6 +61,17 @@ export default class Canvas extends React.Component {
   }
   clear() {
     this.c.clearRect(0, 0, this.props.width, this.props.height)
+  }
+  saveImage(e) {
+    this.c.canvas.toBlob((blob) => {
+      let URLObj = window.URL || window.webkitURL;
+      let a = document.createElement("a");
+      a.href = URLObj.createObjectURL(blob);
+      a.download = "untitled.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
   }
   resetData() {
     this.props.updateDrawingData({
@@ -78,7 +88,7 @@ export default class Canvas extends React.Component {
         <div className='panel--menu'>
           <button onClick={this.resetData}>Reset</button>
           <button onClick={this.clear}>Clear</button>
-          <button onClick={this.clear}>Save</button>
+          <button onClick={this.saveImage}>Save</button>
         </div>
         <canvas height={this.props.height} width={this.props.width} ref={this.canvasRef} onMouseMove={this.handleMouseMove} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp} className='world'></canvas>
       </div>

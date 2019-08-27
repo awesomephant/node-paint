@@ -33,12 +33,12 @@ export default class NumberNode extends React.Component {
             this.props.updateOutput(this.props.id, 0, d)
             this.props.update(this.props.id)
         }
-        if (x !== this.props.outputs[3].value){
-            this.props.updateOutput(this.props.id, 3, x)
+        if (x !== this.props.outputs[1].value){
+            this.props.updateOutput(this.props.id, 1, x)
             this.props.update(this.props.id)
         }
-         if (y !== this.props.outputs[4].value){
-             this.props.updateOutput(this.props.id, 4, y)
+         if (y !== this.props.outputs[2].value){
+             this.props.updateOutput(this.props.id, 2, y)
              this.props.update(this.props.id)
          }
     }

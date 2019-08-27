@@ -1,6 +1,7 @@
 import React from 'react'
 import Socket from './Socket.js';
 import * as utils from './utils.js';
+import './css/RampNode.css'
 
 export default class NumberNode extends React.Component {
     constructor(props) {
@@ -11,9 +12,8 @@ export default class NumberNode extends React.Component {
 
             draggingStopIndex: null,
             stops: [
-                { position: 0.0, color: '#ff33aa' },
-                { position: 0.3, color: '#1199ff' },
-                { position: 1.0, color: '#aabbcc' }
+                { position: 0.0, color: '#ff33aa', picker: React.createRef() },
+                { position: 1.0, color: '#aabbcc', picker: React.createRef() }
             ]
         }
 
@@ -34,6 +34,7 @@ export default class NumberNode extends React.Component {
         this.handleStopDrag = this.handleStopDrag.bind(this)
         this.addStop = this.addStop.bind(this)
         this.removeStop = this.removeStop.bind(this)
+        this.triggerColorPicker = this.triggerColorPicker.bind(this)
 
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
@@ -93,29 +94,45 @@ export default class NumberNode extends React.Component {
             return prevState;
         })
     }
-    handleStopMouseDown(e) {
-        this.setState({ draggingStopIndex: e.target.dataset.index })
+    handleStopMouseDown(e, index) {
+        e.stopPropagation();
+        this.setState({ draggingStopIndex: index })
     }
     handleStopMouseUp(e) {
-        console.log(e)
+        e.stopPropagation();
         this.setState({ draggingStopIndex: null })
     }
 
     addStop(e) {
+        let x = (e.clientX - this.props.x - 14) / (this.c.canvas.width - 12);
+        let imageData = this.c.getImageData(x, 1, 1, 1).data;
+        let c = utils.rgbToHex([imageData[0], imageData[1], imageData[2]])
+        if (x > 1) { x = 1 }
+        if (x < 0) { x = 0 }
+
         this.setState((prevState) => {
-            prevState.stops.push({position: .5, color: '#123543'})
+            prevState.stops.push({ position: x, color: c, picker: React.createRef() })
+            return prevState;
         })
     }
-    removeStop(e) {
-        let index = e.target.dataset.index;
+
+    triggerColorPicker(e, index) {
+        e.stopPropagation()
+        this.state.stops[index].picker.current.click()
+    }
+
+    removeStop(e, index) {
+        e.stopPropagation();
         this.setState((prevState) => {
             prevState.stops.splice(index, 1)
+            return prevState;
         })
     }
 
     handleStopDrag(e) {
-        let x = (e.clientX - this.props.x) / (this.props.width);
+        let x = (e.clientX - this.props.x - 14) / (this.c.canvas.width - 12);
         if (x > 1) { x = 1 }
+        if (x < 0) { x = 0 }
         if (this.state.draggingStopIndex !== null) {
             this.setState((prevState) => {
                 prevState.stops[this.state.draggingStopIndex].position = x;
@@ -178,11 +195,27 @@ export default class NumberNode extends React.Component {
         const stops = this.state.stops.map((stop, index) => {
             let stopCSS = {
                 left: `${stop.position * 100}%`,
+            }
+            let indicatorCSS = {
                 background: `${stop.color}`,
             }
+
             return (
-                <li onMouseDown={this.handleStopMouseDown} onMouseUp={this.handleStopMouseUp} key={index} style={stopCSS} className='gradient--stop ' data-dragging={stop.dragging}>
-                    <input type='color' data-index={index} value={stop.color} onChange={this.handleStopColorChange}></input>
+                <li key={index} style={stopCSS} className='gradient--stop ' data-dragging={stop.dragging}>
+                    <div onMouseDown={(e) => { this.handleStopMouseDown(e, index) }} onMouseUp={(e) => { this.handleStopMouseUp(e) }} onClick={(e) => { e.stopPropagation() }} style={indicatorCSS} data-index={index} className='stop--indicator'></div>
+                    <div className='stop--controls'>
+                        <button onClick={(e) => { this.triggerColorPicker(e, index) }} className='stop--edit'>
+                            <svg viewBox="0 0 24 24">
+                                <path fill="#000000" d="M20.71,4.04C21.1,3.65 21.1,3 20.71,2.63L18.37,0.29C18,-0.1 17.35,-0.1 16.96,0.29L15,2.25L18.75,6M17.75,7L14,3.25L4,13.25V17H7.75L17.75,7Z" />
+                            </svg>
+                        </button>
+                        <button className='stop--remove' onClick={(e) => this.removeStop(e, index)}>
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <input onClick={(e) => { e.stopPropagation() }} ref={stop.picker} type='color' data-index={index} value={stop.color} onChange={this.handleStopColorChange}></input>
                 </li>
             )
         });
@@ -200,7 +233,7 @@ export default class NumberNode extends React.Component {
                 <div className='node-body'>
                     <div className='gradient'>
                         <canvas ref={this.canvasRef} width={this.props.width - 20 + 'px'} height='80' className='gradient--canvas'></canvas>
-                        <ul className='gradient--stops' onMouseMove={this.handleStopDrag}>
+                        <ul className='gradient--stops' onClick={this.addStop} onMouseMove={this.handleStopDrag}>
                             {stops}
                         </ul>
                     </div>

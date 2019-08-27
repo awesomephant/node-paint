@@ -15,6 +15,7 @@ export default class NumberNode extends React.Component {
         this.handleDragEnd = this.handleDragEnd.bind(this)
         this.handleDraftConnection = this.handleDraftConnection.bind(this)
         this.handleDraftConnectionDrop = this.handleDraftConnectionDrop.bind(this)
+        this.formatOutput = this.formatOutput.bind(this)
     }
 
     handleClose(e) {
@@ -22,8 +23,10 @@ export default class NumberNode extends React.Component {
     }
 
     handleChange(e) {
-        let v = e.target.value
-        this.props.updateOutput(this.props.id, 0, v)
+        let v = e.target.value;
+        let _rgb = utils.hexToRGB(v);
+        let rgb = [_rgb.r, _rgb.g, _rgb.b]
+        this.props.updateOutput(this.props.id, 0, rgb)
         this.props.update(this.props.id)
     }
 
@@ -33,23 +36,7 @@ export default class NumberNode extends React.Component {
         })
         this.props.handleDragStart(this.props.id)
     }
-    solve() {
-        let r = parseFloat(this.props.inputs[0].value);
-        let g = parseFloat(this.props.inputs[1].value);
-        let b = parseFloat(this.props.inputs[2].value);
-
-        if (r > 255){r = 255}
-        if (g > 255){g = 255}
-        if (b > 255){b = 255}
-
-        return [r, g, b];
-    }
     componentDidUpdate(prevProps) {
-        let outputValue = this.solve();
-        if (utils.compareArrays(this.props.outputs[0].value, outputValue) === false) {
-            this.props.updateOutput(this.props.id, 0, outputValue)
-            this.props.updateNodes(this.props.id);
-        }
     }
     handleDragEnd() {
         this.setState({
@@ -64,6 +51,12 @@ export default class NumberNode extends React.Component {
 
     handleDraftConnectionDrop(socketID) {
         this.props.finishDraftConnection(this.props.id, socketID)
+    }
+
+    formatOutput(){
+        let hex = utils.rgbToHex(this.props.outputs[0].value)
+        console.log(hex)
+        return hex
     }
 
     render() {
@@ -90,6 +83,7 @@ export default class NumberNode extends React.Component {
                         Close</button>
                 </header>
                 <div className='node-body'>
+                    <input type='color' onChange={this.handleChange} value={this.formatOutput()}></input>
                 </div>
                 <ul className='node-inputs'>
                     {inputs}

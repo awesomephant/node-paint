@@ -51,6 +51,10 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
+        <header className='app--header'>
+          <h1>Node Brush</h1>
+          <a href='#1'>Info</a>
+        </header>
         <NodeContainer drawingData={this.state.drawingData} pen={this.state.pen} updatePen={this.updatePen} width={this.state.width} height={this.state.height * .5}></NodeContainer>
         <div className='divider'></div>
         <Canvas drawingData={this.state.drawingData} updateDrawingData={this.updateDrawingData} width={this.state.width} height={this.state.height * .5} pen={this.state.pen}></Canvas>

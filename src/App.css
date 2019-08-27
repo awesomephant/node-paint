@@ -2,10 +2,27 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 100%;
 }
 
 body {
   font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.app--header {
+  display: flex;
+  justify-content: center;
+  font-size: 1.1rem;
+  padding: .5em;
+  position: fixed;
+  width: 100%;
+}
+.app--header h1 {
+  font-weight: normal;
+  margin-right: 1em;
+}
+.app--header a {
+  color: black;
 }
 
 .node {
@@ -27,44 +44,6 @@ body {
 .node.permanent .node-header {
   border-color: rgb(58, 109, 151);
   background: rgb(175, 197, 230);
-}
-
-.gradient {
-  width: 100%;
-  border-radius: 2px;
-}
-
-.gradient--canvas {
-  border: 1px solid black;
-}
-
-.gradient--stops {
-  position: relative;
-  height: 14px;
-}
-.gradient--stop {
-  list-style: none;
-  position: absolute;
-  border: 1px solid black;
-  top: 0;
-  font-size: 0;
-  height: 12px;
-  width: 12px;
-  border-radius: 1000%;
-  transform: translateX(-50%);
-}
-
-.gradient--stop:hover {
-  opacity: .8;
-}
-
-.gradient--stop input {
-  cursor: pointer;
-  appearance: none;
-  border-radius: 0 !important;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
 }
 
 .socket {
