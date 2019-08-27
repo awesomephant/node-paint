@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "12e166e08af5e781301d0b4a06539490",
+    "revision": "e2ba9502241c049f050db8396a57a423",
     "url": "/node-paint/index.html"
   },
   {
-    "revision": "848bae0ae12d66b02175",
+    "revision": "7fec0acfb4293c2a5a0b",
     "url": "/node-paint/static/css/main.cb085b2e.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/node-paint/static/js/2.5dbd8ed4.chunk.js"
   },
   {
-    "revision": "848bae0ae12d66b02175",
-    "url": "/node-paint/static/js/main.2c931cdc.chunk.js"
+    "revision": "7fec0acfb4293c2a5a0b",
+    "url": "/node-paint/static/js/main.aadb4fe0.chunk.js"
   },
   {
     "revision": "38d43e3a7e01ec57cd3b",
