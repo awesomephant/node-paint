@@ -225,7 +225,7 @@ export default class NodeContainer extends React.Component {
     }
 
     render() {
-        const connectionItems = this.state.connections.map(function (c) {
+        const connectionItems = this.state.connections.map(function (c, i) {
             let toIndex = this.getNodeByID(c.to.nodeID)
             let fromIndex = this.getNodeByID(c.from.nodeID)
             let x1 = this.state.nodes[fromIndex].x + this.state.nodes[fromIndex].width;
@@ -234,7 +234,7 @@ export default class NodeContainer extends React.Component {
             let x2 = this.state.nodes[toIndex].x;
             let y2 = (this.state.nodes[toIndex].y + this.state.nodes[toIndex].height) - ((this.state.nodes[toIndex].inputs.length - c.to.socket) * 17);
 
-            return (<Connection key={c.id} x1={x1} y1={y1} x2={x2} y2={y2}></Connection>)
+            return (<Connection key={`connection-${i}`} x1={x1} y1={y1} x2={x2} y2={y2}></Connection>)
         }, this)
 
         const nodeItems = this.state.nodes.map(function (node) {
@@ -277,11 +277,11 @@ export default class NodeContainer extends React.Component {
             let fromNode = this.state.nodes[this.getNodeByID(this.state.draftConnection.from.nodeID)]
             let x1 = fromNode.x + fromNode.width;
             let y1 = fromNode.y + fromNode.height - ((fromNode.outputs.length - this.state.draftConnection.from.socket) * 17);
-            draftConnection = <Connection key={0} x1={x1} y1={y1} x2={this.state.mouse.x} y2={this.state.mouse.y}></Connection>
+            draftConnection = <Connection key={"draftconnection-0"} x1={x1} y1={y1} x2={this.state.mouse.x} y2={this.state.mouse.y}></Connection>
         }
 
         return (
-            <div className='nodeContainer' onMouseUp={this.handleMouseUp} onMouseMove={this.handleMouseMove} onContextMenu={this.handleContextMenu}>
+            <div className='nodeContainer panel' onMouseUp={this.handleMouseUp} onMouseMove={this.handleMouseMove} onContextMenu={this.handleContextMenu}>
                 < svg width={this.props.width + 'px'} height={this.props.height + 'px'} >
                     {connectionItems}
                     {draftConnection}

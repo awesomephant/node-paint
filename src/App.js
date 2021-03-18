@@ -5,15 +5,15 @@ import Canvas from './Canvas';
 import './App.css';
 
 class App extends React.Component {
-  
-  constructor(props){
+
+  constructor(props) {
     super(props)
     this.state = {
       width: 0,
       height: 0,
       pen: {
         radius: 0,
-        fill: [0,0,0],
+        fill: [0, 0, 0],
         x: 0,
         y: 0
       },
@@ -28,7 +28,7 @@ class App extends React.Component {
     this.updateDrawingData = this.updateDrawingData.bind(this)
   }
 
-  updatePen(newPen){
+  updatePen(newPen) {
     this.setState({
       pen: {
         x: newPen.x,
@@ -38,14 +38,14 @@ class App extends React.Component {
       }
     })
   }
-  updateDrawingData(newData){
+  updateDrawingData(newData) {
     this.setState({
       drawingData: newData
     })
   }
 
-  componentWillMount(){
-    this.setState({height: window.innerHeight, width: window.innerWidth});  
+  componentWillMount() {
+    this.setState({ height: window.innerHeight, width: window.innerWidth });
   }
 
   render() {
@@ -55,9 +55,9 @@ class App extends React.Component {
           <h1>Node Paint</h1>
           <a href='https://www.maxkoehler.com/work/node-paint/'>Info</a>
         </header>
-        <NodeContainer drawingData={this.state.drawingData} pen={this.state.pen} updatePen={this.updatePen} width={this.state.width} height={this.state.height * .5}></NodeContainer>
+        <NodeContainer drawingData={this.state.drawingData} pen={this.state.pen} updatePen={this.updatePen} width={this.state.width * .5} height={this.state.height}></NodeContainer>
         <div className='divider'></div>
-        <Canvas drawingData={this.state.drawingData} updateDrawingData={this.updateDrawingData} width={this.state.width} height={this.state.height * .5} pen={this.state.pen}></Canvas>
+        <Canvas drawingData={this.state.drawingData} updateDrawingData={this.updateDrawingData} width={this.state.width / 2} height={this.state.height} pen={this.state.pen}></Canvas>
       </div>
     );
   }

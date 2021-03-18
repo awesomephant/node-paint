@@ -1,3 +1,4 @@
+import * as  equal from 'fast-deep-equal';
 import React from 'react'
 import Socket from './Socket.js';
 import * as utils from './utils.js';
@@ -9,10 +10,10 @@ export default class NumberNode extends React.Component {
 
         this.state = {
             dragging: false,  // should be a prop
-
             draggingStopIndex: null,
+            cachedValue: [0, 0, 0],
             stops: [
-                { position: 0.0, color: '#ff33aa', picker: React.createRef() },
+                { position: 0.0, color: '#ff3300', picker: React.createRef() },
                 { position: 1.0, color: '#aabbcc', picker: React.createRef() }
             ]
         }
@@ -156,10 +157,9 @@ export default class NumberNode extends React.Component {
         this.props.removeNode(this.props.id)
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         this.drawGradient()
         let outputValue = this.solve();
-
         if (utils.compareArrays(this.props.outputs[0].value, outputValue) === false) {
             this.props.updateOutput(this.props.id, 0, outputValue)
             this.props.updateNodes(this.props.id);
@@ -180,7 +180,6 @@ export default class NumberNode extends React.Component {
     }
 
     render() {
-
         const nodeCSS = {
             width: `${this.props.width}px`,
             height: `${this.props.height}px`,

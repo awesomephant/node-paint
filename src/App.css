@@ -6,14 +6,14 @@
 }
 
 body {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 .app--header {
   display: flex;
   justify-content: center;
   font-size: 1.1rem;
-  padding: .5em;
+  padding: 0.5em;
   position: fixed;
   width: 100%;
 }
@@ -33,7 +33,7 @@ body {
   top: 0;
   left: 0;
   background: white;
-  box-shadow: 4px 4px 0px 0px rgba(0,0,0,.1);
+  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.1);
 }
 
 .node.permanent {
@@ -48,15 +48,15 @@ body {
 
 .socket {
   list-style: none;
-  font-size: .85rem;
+  font-size: 0.85rem;
   height: 18px;
   display: flex;
-  align-items: center
+  align-items: center;
 }
 
 .socket--plug {
   display: inline-block;
-  height:10px;
+  height: 10px;
   width: 10px;
   position: relative;
   background: rgb(248, 248, 248);
@@ -69,14 +69,15 @@ body {
   cursor: pointer;
 }
 
-[data-type='color'] .socket--plug {
+[data-type="color"] .socket--plug {
   background: rgb(255, 224, 48);
 }
 
-[data-type='vector'] .socket--plug {
+[data-type="vector"] .socket--plug {
   background: rgb(84, 184, 106);
 }
-.node-inputs, .node-outputs {
+.node-inputs,
+.node-outputs {
   position: absolute;
   bottom: 4px;
 }
@@ -92,28 +93,28 @@ body {
   margin-right: -5px;
 }
 .node-inputs .socket--plug {
-  margin-right: .4rem;
+  margin-right: 0.4rem;
 }
 .node-outputs .socket--plug {
-  margin-left: .4rem;
+  margin-left: 0.4rem;
 }
 .socket--label {
   -moz-user-select: none;
   user-select: none;
-  font-size: .9rem;
-  letter-spacing: .01em;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
 }
 
 .node-header {
   border-bottom: 1px solid black;
-  padding: .2rem;
+  padding: 0.2rem;
   display: flex;
   justify-content: space-between;
-  font-size: .9rem;
+  font-size: 0.9rem;
   cursor: grab;
   -moz-user-select: none;
   user-select: none;
-  background: rgb(250,250,250);
+  background: rgb(250, 250, 250);
 }
 
 .node-header path {
@@ -129,25 +130,25 @@ body {
   cursor: pointer;
 }
 .node--close:hover {
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .node--close svg {
   width: 1rem;
 }
 
-[data-dragging=true] .node-header {
+[data-dragging="true"] .node-header {
   cursor: grabbing;
-  background: rgb(240,240,240);
+  background: rgb(240, 240, 240);
 }
 
 .node-body {
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .node-body input {
-  padding: .3rem .6rem;
-  font-size: .9rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.9rem;
   /* border: 1px solid gray; */
   border-radius: 16px;
   border: 1px solid transparent;
@@ -159,8 +160,8 @@ body {
   width: 100%;
   border: 1px solid transparent;
   background: rgb(243, 243, 243);
-  padding: .3rem .6rem;
-  font-size: .9rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.9rem;
 }
 
 .node-body input:focus {
@@ -172,24 +173,17 @@ body {
   box-shadow: none;
 }
 
-.wave--canvas{
+.wave--canvas {
   width: 100%;
   border: 1px solid black;
 }
 
 .app {
   display: flex;
-  flex-direction: column;
-  justify-content: stretch;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
 }
-
-.world {
-  bottom: 0;
-}
-
 path {
   fill: none;
   stroke: black;
@@ -197,11 +191,11 @@ path {
 }
 
 .divider {
-  height: 9px;
-  border-top: 8px solid white;
+  width: 9px;
   background: black;
   display: block;
   cursor: ns-resize;
+  display: none;
 }
 
 .divider:hover {
@@ -210,16 +204,22 @@ path {
 
 .nodeContainer {
   overflow: hidden;
+  background: rgb(238, 236, 236);
+  border-right: 1px solid black;
+}
+
+.canvas {
+  width: 50%;
 }
 
 .panel {
-  position: relative;
+  flex-basis: 50%;
 }
 
 .panel--menu {
   position: absolute;
-  top: .5rem;
-  left: .5rem;
+  top: 0.5rem;
+  left: 0.5rem;
   display: flex;
   border: 1px solid black;
   border-bottom-width: 2px;
@@ -229,12 +229,12 @@ path {
 .panel--menu button {
   border: 0;
   border-right: 1px solid black;
-  padding: .3em .5em;
-  letter-spacing: .01em;
-  font-size: .9rem;
+  padding: 0.3em 0.5em;
+  letter-spacing: 0.01em;
+  font-size: 0.9rem;
   background: white;
   cursor: pointer;
-  font-family: 'IBM Plex Sans';
+  font-family: "IBM Plex Sans";
   border-top: 1px solid transparent;
 }
 
@@ -242,7 +242,7 @@ path {
   border-right: 0;
 }
 .panel--menu button:hover {
-  background: rgb(235,235,235); 
+  background: rgb(235, 235, 235);
 }
 .panel--menu button:focus {
 }
